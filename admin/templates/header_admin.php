@@ -1,6 +1,5 @@
 <?php
-// admin/templates/header_admin.php
-if (session_status() === PHP_SESSION_NONE) { // Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 // Basic login check (Uncomment and adapt when you implement login)
@@ -16,7 +15,6 @@ if (session_status() === PHP_SESSION_NONE) { // Start session if not already sta
 $current_page_admin = basename($_SERVER['PHP_SELF']);
 ?>
 <style>
-    /* Styles for this admin navigation bar - can be moved to a common admin.css */
     .admin-main-navigation {
         background-color: #343a40; /* Dark background for admin nav */
         padding: 12px 0;      /* Padding top/bottom */
