@@ -2,11 +2,10 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// Uncomment and adapt for your login system
-// if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-//     header('Location: login.php');
-//     exit();
-// }
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    header('Location: login.php');
+    exit();
+}
 
 require_once '../connection.php'; // Ensure this path is correct
 

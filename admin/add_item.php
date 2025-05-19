@@ -1,8 +1,17 @@
 <?php
-// admin/add_item.php
-// session_start(); // Ensure session is started if using $_SESSION for messages or login
-require_once '../connection.php';
-$categories_available = ['wedding', 'portrait', 'pre-shoot', 'baby', 'event', 'landscape', 'fashion', 'product'];
+// Example: At the top of manage_items.php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    header('Location: login.php'); // Redirect to login page
+    exit();
+}
+
+// If using header_admin.php, this check can be primarily within header_admin.php
+// and pages including it will be protected.
+// require_once '../connection.php'; // This would come after the check
 ?>
 <!DOCTYPE html>
 <html lang="en">

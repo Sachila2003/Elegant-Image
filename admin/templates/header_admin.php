@@ -1,17 +1,15 @@
 <?php
+// admin/templates/header_admin.php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// Basic login check (Uncomment and adapt when you implement login)
-// if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-//     // Assuming login.php is in the admin root
-//     $login_page_url = (basename($_SERVER['PHP_SELF']) == 'login.php') ? '' : 'login.php';
-//     if ($login_page_url) { // Avoid redirect loop on login page itself
-//         header('Location: ' . $login_page_url);
-//         exit();
-//     }
-// }
 
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    // Determine the correct path to login.php relative to header_admin.php
+    // If header_admin.php is in admin/templates/, login.php is likely in admin/
+    header('Location: ../login.php'); // Go up one level to admin/ then to login.php
+    exit();
+}
 $current_page_admin = basename($_SERVER['PHP_SELF']);
 ?>
 <style>
@@ -54,8 +52,8 @@ $current_page_admin = basename($_SERVER['PHP_SELF']);
     .admin-main-navigation ul li a.view-site-link:hover {
         background-color: #218838; /* Darker green */
     }
-    .admin-main-navigation ul li a.logout-link { /* Optional: For logout button */
-         background-color: #dc3545; /* Red for logout */
+    .admin-main-navigation ul li a.logout-link {
+         background-color: #dc3545;
     }
     .admin-main-navigation ul li a.logout-link:hover {
          background-color: #c82333;
@@ -63,11 +61,18 @@ $current_page_admin = basename($_SERVER['PHP_SELF']);
 </style>
 <div class="admin-main-navigation">
     <ul>
+        <!-- If header_admin.php is in templates, links need to reflect that or be absolute -->
         <li><a href="add_item.php" class="<?php echo ($current_page_admin == 'add_item.php' ? 'active-admin-page' : ''); ?>">➕ Add Item</a></li>
         <li><a href="manage_items.php" class="<?php echo ($current_page_admin == 'manage_items.php' ? 'active-admin-page' : ''); ?>">📋 Manage Items</a></li>
         <li><a href="../index.php#portfolio-section" target="_blank" class="view-site-link">🌐 View Portfolio</a></li>
-        <?php // if(isset($_SESSION['admin_logged_in'])): // For logout button when login is implemented ?>
-            <!-- <li><a href="logout.php" class="logout-link">🚪 Logout</a></li> -->
-        <?php // endif; ?>
+         <li><a href="manage_users.php" class="<?php echo ($current_page_admin == 'manage_users.php' ? 'active-admin-page' : ''); ?>">👥 Manage Users</a></li>
+          <?php if(isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
+            <li><a href="logout.php" class="logout-link">🚪 Logout (<?php echo htmlspecialchars($_SESSION['admin_username'] ?? 'Admin'); ?>)</a></li>
+        <?php else: ?>
+            <!-- Show Login link if not logged in and not on login/register page -->
+            <?php if ($current_page_admin != 'login.php' && $current_page_admin != 'register.php'): ?>
+                <li><a href="login.php" class="<?php echo ($current_page_admin == 'login.php' ? 'active-admin-page' : ''); ?>">🔑 Login</a></li>
+            <?php endif; ?>
+        <?php endif; ?>
     </ul>
 </div>
