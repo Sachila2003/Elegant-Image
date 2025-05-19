@@ -1,0 +1,265 @@
+/* Global Resets and Basic Styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; background-color: #f9f9f9; }
+.container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+img { max-width: 100%; height: auto; display: block; }
+a { text-decoration: none; color: inherit; }
+
+/* Header Styling */
+header { background-color: #2c2c2c; color: #fff; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+header .logo a { color: #fff; font-size: 1.8em; font-weight: bold; }
+header nav ul { list-style: none; display: flex; margin: 0; padding: 0; }
+header nav ul li { margin-left: 25px; }
+header nav ul li a { color: #ddd; font-size: 1em; transition: color 0.3s ease; padding: 8px 10px; }
+header nav ul li a:hover, header nav ul li a.active { color: #e91e63; }
+header nav ul li a.admin-nav-icon { font-size: 1.3em; padding: 8px 8px; line-height: 1; }
+header nav ul li a.admin-nav-icon:hover { color: #e91e63; background-color: transparent; }
+
+/* Main Content Area */
+main { padding-top: 80px; }
+
+/* Hero Section (No changes from your last provided CSS) */
+.hero { display: flex; align-items: center; justify-content: space-between; padding: 60px 5%; min-height: calc(100vh - 80px); background-color: #fff; }
+.hero-text { flex-basis: 45%; animation: slideInFromLeft 1s ease-out; }
+.hero-text h1 { font-size: 3.2em; margin-bottom: 20px; color: #222; line-height: 1.2; font-weight: bold; }
+.hero-text h1 .highlight { color: #e91e63; }
+.hero-text p { font-size: 1.1em; margin-bottom: 30px; color: #555; }
+.cta-button { background-color: #e91e63; color: #fff !important; padding: 12px 25px; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease; display: inline-block; }
+.cta-button:hover { background-color: #c2185b; transform: translateY(-2px); }
+.hero-gallery { flex-basis: 50%; position: relative; height: 500px; animation: fadeIn 1.5s ease-out; max-width: 600px; }
+.photo-slot { position: absolute; overflow: hidden; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.12); transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.5s ease; background-color: #eee; }
+.photo-slot:hover { transform: scale(1.03) translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.18); z-index: 10 !important; }
+.photo-slot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.5s ease-in-out; }
+#slot1 { width: 65%; height: 75%; top: 5%; left: 5%; z-index: 3; }
+#slot2 { width: 40%; height: 50%; top: 40%; right: 5%; z-index: 2; transform: rotate(4deg); }
+#slot3 { width: 35%; height: 45%; top: 50%; left: 10%; z-index: 1; transform: rotate(-3deg); }
+#slot4 { width: 30%; height: 35%; top: 10%; right: 10%; z-index: 4; transform: rotate(6deg); }
+
+/* About Section (No changes from your last provided CSS) */
+.about { padding: 80px 5%; background-color: #ffffff; overflow: hidden; }
+.about-content { display: flex; align-items: center; gap: 60px; }
+.about-text { flex-basis: 55%; animation: slideInFromLeft 1s ease-out; }
+.about-text h2 { font-size: 2.5em; color: #222; margin-bottom: 10px; position: relative; padding-bottom: 10px; }
+.about-text h2::after { content: ''; position: absolute; left: 0; bottom: 0; width: 80px; height: 4px; background-color: #e91e63; border-radius: 2px; }
+.about-text h3 { font-size: 1.4em; color: #444; margin-bottom: 20px; font-weight: 600; padding-left: 15px; border-left: 3px solid #e91e63; }
+.about-text p { font-size: 1.05em; color: #555; margin-bottom: 20px; line-height: 1.7; }
+.stats-container { display: flex; justify-content: flex-start; gap: 40px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
+.stat-item { text-align: left; }
+.stat-number { display: block; font-size: 2.2em; font-weight: 700; color: #e91e63; line-height: 1; }
+.stat-label { display: block; font-size: 0.9em; color: #777; text-transform: uppercase; letter-spacing: 0.5px; }
+.about-image-slideshow { flex-basis: 40%; width: 100%; max-width: 350px; height: 420px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.12); position: relative; animation: zoomIn 1s ease-out 0.2s; animation-fill-mode: backwards; background-color: #f0f0f0; }
+.about-image-slideshow img#about-slideshow-image { width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; transition: opacity 0.7s ease-in-out; }
+
+
+/* =========================================== */
+/* PORTFOLIO SECTION STYLES (REVISED FOR OVERLAY) */
+/* =========================================== */
+.portfolio-main-section {
+    padding: 60px 0;
+    background-color: #f9f9f9;
+}
+
+.portfolio-main-section .container { 
+     width: 90%; max-width: 1200px; margin: 0 auto; 
+}
+
+.section-title-portfolio {
+    text-align: center;
+    margin-bottom: 25px;
+}
+.section-title-portfolio h2 {
+    font-size: 1.4em;
+    font-weight: normal;
+    color: #555;
+}
+
+.portfolio-filters {
+    text-align: center;
+    margin-bottom: 35px;
+}
+.portfolio-filters a {
+    margin: 0 10px;
+    padding: 8px 0px;
+    text-decoration: none;
+    color: #777;
+    font-size: 1em;
+    font-weight: 500;
+    transition: color 0.3s ease, border-bottom-color 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+.portfolio-filters a.filter-active,
+.portfolio-filters a:hover {
+    color: #333;
+    border-bottom-color: #c0392b;
+}
+
+.portfolio-grid {
+   display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+/* Styles for each portfolio item container */
+.portfolio-item {
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden; /* This is CRUCIAL for object-fit to work as expected */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+    position: relative;
+    aspect-ratio: 1 / 1;
+    height: 280px;
+    width: 280px;
+}
+
+/* Styles for the image within a NORMAL portfolio item */
+.portfolio-item.normal-item img {
+    width: 100%;
+    height: 100%; /* This makes the image fill the aspect-ratio defined by the parent */
+    object-fit: cover;
+    display: block;
+    gap: 10px;
+}
+
+/* Hover effect on the portfolio item: image and overlay */
+.portfolio-item.normal-item:hover > img {
+    transform: scale(1.07); /* Slight zoom on image */
+    filter: brightness(0.5); /* Dim the image to make overlay text stand out */
+}
+
+.portfolio-item.normal-item:hover .item-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* The overlay div itself */
+.portfolio-item .item-overlay { /* Targeting .item-overlay inside any .portfolio-item */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Darker overlay for better text contrast */
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    opacity: 0; /* Hidden by default */
+    visibility: hidden; /* Hidden by default */
+    transition: opacity 0.35s ease-in-out, visibility 0s linear 0.35s; /* Smooth fade transition */
+    border-radius: 12px; /* Match parent's border radius */
+    pointer-events: none; /* Overlay itself is not clickable, only its children */
+}
+.portfolio-item .item-overlay > * { /* Children of overlay (title, p, a) ARE clickable */
+    pointer-events: auto;
+}
+
+.item-overlay .overlay-title {
+    font-size: 1.3em;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.item-overlay .overlay-description {
+    font-size: 0.9em; /* Slightly larger description */
+    margin-bottom: 15px;
+    line-height: 1.45;
+    color: #f0f0f0; /* Slightly off-white */
+    max-height: calc(0.9em * 1.45 * 3); /* Approx 3 lines based on font-size and line-height */
+    overflow: hidden;
+}
+
+.item-overlay .btn-see-album {
+    background-color: #e74c3c;
+    color: white !important;
+    padding: 9px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+}
+.item-overlay .btn-see-album:hover {
+    background-color: #c0392b;
+    transform: translateY(-1px);
+}
+
+
+/* Showcase Item Styles (These were mostly fine, ensuring consistency) */
+.portfolio-showcase-item {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; color: white; padding: 25px; box-sizing: border-box;
+}
+.portfolio-showcase-item .showcase-bg-img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover; background-position: center; z-index: 1;
+    filter: brightness(0.6) contrast(0.9); border-radius: 12px;
+}
+.portfolio-showcase-item:hover .showcase-bg-img { filter: brightness(0.5) contrast(1); }
+.portfolio-showcase-item .showcase-content { position: relative; z-index: 2; }
+.portfolio-showcase-item h3 { font-size: 1.7em; margin-bottom: 8px; font-weight: 600; }
+.portfolio-showcase-item p { font-size: 0.95em; margin-bottom: 18px; opacity: 0.9; }
+.btn-see-more { background-color: #e74c3c; color: white !important; padding: 10px 22px; border-radius: 20px; font-weight: 500; font-size: 0.9em; transition: background-color 0.3s ease, transform 0.2s ease; display: inline-block; border: none; }
+.btn-see-more:hover { background-color: #c0392b; transform: translateY(-2px); }
+.no-items-message { text-align: center; grid-column: 1 / -1; padding: 40px; color: #777; }
+
+/* Lightbox Styles (No changes from your last provided CSS) */
+#lightbox { position: fixed; z-index: 1002; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.92); display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
+#lightbox.lightbox-visible { opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0s linear 0s; }
+.lightbox-hidden { display: none !important; }
+.lightbox-content { margin: auto; display: block; max-width: 85%; max-height: 75vh; border-radius: 5px; animation: lightboxZoom 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+@keyframes lightboxZoom { from {transform: scale(0.8); opacity: 0;} to {transform: scale(1); opacity: 1;} }
+#lightbox-caption { margin: 15px auto; display: block; width: 80%; max-width: 700px; text-align: center; color: #ccc; padding: 10px 0; font-size: 1.1em; line-height: 1.5; }
+.lightbox-close-btn { position: absolute; top: 20px; right: 35px; color: #f1f1f1; font-size: 45px; font-weight: bold; transition: 0.3s; cursor: pointer; line-height: 1; }
+.lightbox-close-btn:hover, .lightbox-close-btn:focus { color: #bbb; }
+.lightbox-prev, .lightbox-next { cursor: pointer; position: absolute; top: 50%; width: auto; padding: 18px; margin-top: -30px; color: white; font-weight: bold; font-size: 24px; transition: 0.5s ease; border-radius: 3px; user-select: none; background-color: rgba(50,50,50,0.4); }
+.lightbox-next { right: 15px; }
+.lightbox-prev { left: 15px; }
+.lightbox-prev:hover, .lightbox-next:hover { background-color: rgba(255,255,255,0.25); }
+
+/* Footer Styling (No changes from your last provided CSS) */
+footer { background-color: #2c2c2c; color: #ecf0f1; text-align: center; padding: 30px 20px; margin-top: 40px; }
+footer p { margin: 0; font-size: 0.9em; }
+
+
+@media (max-width: 768px) { /* Mobile screens */
+    /* ... (other mobile styles) ... */
+    .portfolio-grid {
+        gap: 10px; /* Smaller gap for mobile */
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Adjust minmax for mobile if needed */
+    }
+    /* ... */
+}
+
+@media (max-width: 480px) { /* Small Mobile screens */
+    /* ... (other small mobile styles) ... */
+    .portfolio-grid {
+        grid-template-columns: 1fr; /* Single column */
+        gap: 15px; /* Can have a slightly larger gap for single column if preferred */
+    }
+    /* ... */
+}
+/* Responsive Adjustments (Minor adjustments to portfolio item heights) */
+@media (max-width: 992px) { header { padding: 15px 3%; } .hero { flex-direction: column; text-align: center; padding: 40px 3%; } .hero-text { flex-basis: 100%; margin-bottom: 40px; } .hero-gallery { flex-basis: 100%; height: 400px; max-width: 500px; } #slot1 { width: 60%; height: 70%; } #slot2 { width: 38%; height: 48%; top: 35%; } #slot3 { width: 33%; height: 43%; top: 55%; } #slot4 { width: 28%; height: 33%; top: 15%; } .about-content { flex-direction: column; gap: 40px; padding: 60px 3%; } .about-image-slideshow { order: -1; margin-bottom: 30px; max-width: 400px; height: 350px; }
+    .portfolio-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+    .portfolio-item { min-height: 210px; /* Adjusted */ }
+}
+@media (max-width: 768px) { header { flex-direction: column; padding: 10px 3%; } header nav ul { margin-top: 10px; justify-content: center; flex-wrap: wrap; } header nav ul li { margin: 5px 10px; } .hero-text h1 { font-size: 2.5em; } .hero-gallery { height: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; position: static; } .photo-slot { position: static; width: 100% !important; height: 180px !important; transform: none !important; } .about-content { padding: 40px 3%; } .about-text h2 {font-size: 2.2em;} .about-image-slideshow { width: 90%; max-width: 300px; height: 320px; } .portfolio-main-section { padding: 40px 0; } .portfolio-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; } .portfolio-filters a { margin: 0 6px; font-size: 0.9em; }
+    .portfolio-item { min-height: 200px; /* Consistent */ }
+    .lightbox-content { max-width: 90%; max-height: 70vh; }
+}
+@media (max-width: 480px) { .hero-text h1 { font-size: 2em; } .hero-gallery { grid-template-columns: 1fr; } .photo-slot { height: 200px !important; } .portfolio-grid { grid-template-columns: 1fr; }
+    .portfolio-item { min-height: 220px; /* Adjusted for single column, can be taller */ }
+}
+
+/* Keyframe Animations */
+@keyframes slideInFromLeft { 0% { transform: translateX(-100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+@keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes zoomIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
