@@ -8,10 +8,6 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     header('Location: login.php'); // Redirect to login page
     exit();
 }
-
-// If using header_admin.php, this check can be primarily within header_admin.php
-// and pages including it will be protected.
-// require_once '../connection.php'; // This would come after the check
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,15 +104,6 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
             <input type="submit" value="Add Portfolio Item">
         </form>
-
-        <?php
-        // The general "Back to Home Page" button is removed from here as it's in the main admin nav
-        // if (!isset($_GET['status'])) {
-        // echo '<div class="navigation-buttons">';
-        // echo '  <a href="../index.php" class="back-to-home-btn">« Back to Home Page</a>';
-        // echo '</div>';
-        // }
-        ?>
     </div>
 
     <script>

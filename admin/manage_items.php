@@ -7,11 +7,6 @@ require_once '../connection.php';
 
 // Handle Delete Action (this part remains the same)
 if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']) && is_numeric($_GET['id'])) {
-    // ... (your existing delete logic from the file you provided) ...
-    // Make sure to set $_SESSION['message'] and redirect to manage_items.php
-    // Example:
-    // $_SESSION['message'] = ['type' => 'success', 'text' => 'Item deleted.'];
-    // header('Location: manage_items.php'); exit();
 }
 
 $portfolio_items = [];

@@ -1,5 +1,4 @@
 <?php
-// index.php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -26,7 +25,7 @@ error_reporting(E_ALL);
                 <li><a href="#">Contact</a></li>
                 <li>
                     <a href="admin/add_item.php" title="Admin Panel" class="admin-nav-icon">
-                        👤 <!-- User Icon -->
+                        👤 
                     </a>
                 </li>
             </ul>
@@ -119,14 +118,20 @@ error_reporting(E_ALL);
                         $result = null;
                         if ($current_filter != 'all') {
                             $stmt = $conn->prepare($sql);
-                            if ($stmt === false) { /* error handling */ } else {
+                            if ($stmt === false) { 
+
+                            } else {
                                 $stmt->bind_param("s", $current_filter);
-                                if (!$stmt->execute()) { /* error handling */ } else { $result = $stmt->get_result(); }
+                                if (!$stmt->execute()) { 
+
+                                } else { $result = $stmt->get_result(); }
                                 if ($stmt) $stmt->close();
                             }
                         } else {
                             $result_query = $conn->query($sql);
-                            if ($result_query === false) { /* error handling */ } else { $result = $result_query; }
+                            if ($result_query === false) {
+
+                             } else { $result = $result_query; }
                         }
 
                         if ($result && $result->num_rows > 0) {
@@ -166,7 +171,7 @@ error_reporting(E_ALL);
                     ?>
                 </div>
             </div>
-        </section> <!-- Portfolio section ends here -->
+        </section>
 
     </main>
     <footer>

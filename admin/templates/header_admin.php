@@ -46,11 +46,11 @@ $current_page_admin = basename($_SERVER['PHP_SELF']);
         background-color: #007bff; /* Primary blue for active/hover */
         color: #ffffff;
     }
-    .admin-main-navigation ul li a.view-site-link { /* Special style for view site link */
-        background-color: #28a745; /* Green for view site */
+    .admin-main-navigation ul li a.view-site-link {
+        background-color: #28a745; 
     }
     .admin-main-navigation ul li a.view-site-link:hover {
-        background-color: #218838; /* Darker green */
+        background-color: #218838;
     }
     .admin-main-navigation ul li a.logout-link {
          background-color: #dc3545;
@@ -64,7 +64,6 @@ $current_page_admin = basename($_SERVER['PHP_SELF']);
         <!-- If header_admin.php is in templates, links need to reflect that or be absolute -->
         <li><a href="add_item.php" class="<?php echo ($current_page_admin == 'add_item.php' ? 'active-admin-page' : ''); ?>">➕ Add Item</a></li>
         <li><a href="manage_items.php" class="<?php echo ($current_page_admin == 'manage_items.php' ? 'active-admin-page' : ''); ?>">📋 Manage Items</a></li>
-        <li><a href="../index.php#portfolio-section" target="_blank" class="view-site-link">🌐 View Portfolio</a></li>
          <li><a href="manage_users.php" class="<?php echo ($current_page_admin == 'manage_users.php' ? 'active-admin-page' : ''); ?>">👥 Manage Users</a></li>
           <?php if(isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
             <li><a href="logout.php" class="logout-link">🚪 Logout (<?php echo htmlspecialchars($_SESSION['admin_username'] ?? 'Admin'); ?>)</a></li>
