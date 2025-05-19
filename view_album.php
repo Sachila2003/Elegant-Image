@@ -1,5 +1,4 @@
 <?php
-// view_album.php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 require_once 'connection.php';
@@ -48,9 +47,8 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Album: <?php echo htmlspecialchars($main_item_details['title']); ?></title>
-    <link rel="stylesheet" href="styles.css"> <!-- Your main stylesheet -->
+    <link rel="stylesheet" href="styles.css">
     <style>
-        /* Styles specific to view_album.php (from your code) */
         body { background-color: #f4f7f6; color: #333; }
         .album-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         .album-page-header { padding: 15px 0; text-align: center; margin-bottom: 20px; }
@@ -67,11 +65,9 @@ $conn->close();
         .album-image-wrapper img { width: 100%; height: 250px; object-fit: cover; display: block; cursor: pointer; }
         .album-image-caption { padding: 12px; font-size: 0.9em; color: #444; text-align: center; border-top: 1px solid #eee; }
         .no-images-message { text-align: center; font-size: 1.1em; color: #777; padding: 40px 20px; }
-        /* Your main lightbox CSS from styles.css will be used */
     </style>
 </head>
 <body>
-    <?php // Optional: include 'header_template.php'; // Example ?>
 
     <div class="album-container">
         <div class="album-title-section">
@@ -102,9 +98,7 @@ $conn->close();
         <?php else: ?>
             <p class="no-images-message">This album currently has no additional images.</p>
         <?php endif; ?>
-    </div>
-
-    <!-- ========== LIGHTBOX HTML STRUCTURE (Copied from index.php) ========== -->
+    </div>>
     <div id="lightbox" class="lightbox-hidden">
         <span class="lightbox-close-btn">×</span>
         <img class="lightbox-content" id="lightbox-img" src="">
@@ -112,9 +106,6 @@ $conn->close();
         <a class="lightbox-prev">❮</a>
         <a class="lightbox-next">❯</a>
     </div>
-    <!-- ========== END LIGHTBOX HTML STRUCTURE ========== -->
-
-    <!-- Link to your MAIN script.js file -->
     <script src="script.js"></script>
 
 </body>
