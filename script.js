@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('#slot4 img')
     ].filter(slot => slot !== null);
 
-    const heroImageUrls = [ // Ensure these paths are correct relative to your HTML file
+    const heroImageUrls = [
         'images/img01.jpg', 'images/img02.jpg', 'images/img03.jpg', 'images/img04.jpg',
         'images/img05.jpg', 'images/img06.jpg', 'images/img07.jpg', 'images/img08.jpg',
         'images/img09.jpg', 'images/img10.jpg', 'images/img11.jpg', 'images/img12.jpg',

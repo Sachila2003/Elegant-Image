@@ -1,5 +1,4 @@
 <?php
-// admin/register.php
 require_once '../connection.php'; // Database connection
 $registration_message = '';
 
@@ -27,8 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt_check->execute();
             $result_check = $stmt_check->get_result();
             if ($result_check->num_rows > 0) {
-                // It's better to fetch and check which one exists if you want specific messages
-                // For now, a general message if either exists
                 $errors[] = "Username or Email already exists.";
             }
             $stmt_check->close();
@@ -41,12 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Hash the password
         $password_hashed = password_hash($password, PASSWORD_DEFAULT);
         $default_role = 'admin'; // Set a default role for new registrations
-        $current_datetime = date('Y-m-d H:i:s'); // Current datetime for created_at and updated_at
-
-        // We need to insert values for all columns that don't have a DB-level DEFAULT or are NOT NULL without a default
-        // Your table structure shows 'role', 'created_at', 'updated_at' have DEFAULT NULL, which is fine.
-        // However, it's good practice to set created_at and updated_at on registration.
-        // Role can also be set.
+        $current_datetime = date('Y-m-d H:i:s');
         $stmt_insert = $conn->prepare("INSERT INTO users (full_name, username, email, password_hash, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
         if ($stmt_insert) {
