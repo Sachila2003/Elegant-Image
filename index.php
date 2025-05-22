@@ -5,12 +5,14 @@ error_reporting(E_ALL);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elegant Image Portfolio</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <header>
         <div class="logo">
@@ -25,7 +27,7 @@ error_reporting(E_ALL);
                 <li><a href="#">Contact</a></li>
                 <li>
                     <a href="admin/add_item.php" title="Admin Panel" class="admin-nav-icon">
-                        👤 
+                        👤
                     </a>
                 </li>
             </ul>
@@ -85,7 +87,8 @@ error_reporting(E_ALL);
         <section class="portfolio-main-section" id="portfolio-section">
             <div class="container">
                 <div class="section-title-portfolio">
-                    <h2>Capturing moments, creating memories</h2>
+                    <h1>Showcase of my Expertise</h1>
+                    <p class="portfolio-subtitle">Capturing moments, creating memories</p>
                 </div>
 
                 <?php
@@ -113,25 +116,28 @@ error_reporting(E_ALL);
                         echo "<p class='no-items-message'>" . $db_error_msg . "</p>";
                     } else {
                         $sql = "SELECT id, title, category, image_thumb, description, is_category_showcase, showcase_subtitle, showcase_link FROM portfolio_items ";
-                        if ($current_filter != 'all') { $sql .= " WHERE category = ? "; }
+                        if ($current_filter != 'all') {
+                            $sql .= " WHERE category = ? ";
+                        }
                         $sql .= " ORDER BY is_category_showcase DESC, uploaded_at DESC";
                         $result = null;
                         if ($current_filter != 'all') {
                             $stmt = $conn->prepare($sql);
-                            if ($stmt === false) { 
-
+                            if ($stmt === false) {
                             } else {
                                 $stmt->bind_param("s", $current_filter);
-                                if (!$stmt->execute()) { 
-
-                                } else { $result = $stmt->get_result(); }
+                                if (!$stmt->execute()) {
+                                } else {
+                                    $result = $stmt->get_result();
+                                }
                                 if ($stmt) $stmt->close();
                             }
                         } else {
                             $result_query = $conn->query($sql);
                             if ($result_query === false) {
-
-                             } else { $result = $result_query; }
+                            } else {
+                                $result = $result_query;
+                            }
                         }
 
                         if ($result && $result->num_rows > 0) {
@@ -180,4 +186,5 @@ error_reporting(E_ALL);
 
     <script src="script.js"></script>
 </body>
+
 </html>
