@@ -10,6 +10,7 @@ error_reporting(E_ALL);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elegant Image Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -24,7 +25,7 @@ error_reporting(E_ALL);
                 <li><a href="#about-section">About</a></li>
                 <li><a href="#portfolio-section">Portfolio</a></li>
                 <li><a href="#">Testimonials</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="#contact-section">Contact</a></li>
                 <li>
                     <a href="admin/add_item.php" title="Admin Panel" class="admin-nav-icon">
                         👤
@@ -175,6 +176,71 @@ error_reporting(E_ALL);
                         }
                     }
                     ?>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section" id="contact-section">
+            <div class="container">
+                <div class="section-title-contact">
+                    <h2>Get in Touch</h2>
+                    <p class="contact-subtitle">Let's create something beautiful together</p>
+                </div>
+
+                <div class="contact-content-wrapper">
+                    <div class="contact-details-column">
+                        <div class="contact-info-item">
+                            <div class="contact-icon phone-icon">
+                                📞
+                            </div>
+                            <div class="contact-text">
+                                <h4>Call Us</h4>
+                                <p>+62 11-9518-9545</p>
+                                <small>Available 9:00 AM - 6:00 PM</small>
+                            </div>
+                        </div>
+
+                        <div class="contact-info-item">
+                            <div class="contact-icon email-icon">
+                                📧 
+                            </div>
+                            <div class="contact-text">
+                                <h4>Email Us</h4>
+                                <p>brotherphotography@gmail.com</p>
+                                <small>We reply within 24 hours</small>
+                            </div>
+                        </div>
+
+                        <div class="connect-with-us">
+                            <h4>Connect With Us</h4>
+                            <div class="social-icons">
+                                <a href="#" target="_blank" class="social-icon fb" title="Facebook"><i class="fa-brands fa-facebook"></i></a> <!-- Placeholder, use actual icons -->
+                                <a href="#" target="_blank" class="social-icon ig" title="Instagram"><i class="fa-brands fa-square-instagram"></i></a>
+                                <a href="#" target="_blank" class="social-icon tk" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                                <a href="#" target="_blank" class="social-icon wa" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-form-column">
+                        <form action="process_contact_form.php" method="POST" class="contact-form">
+                            <div class="form-group">
+                                <label for="your-name">Your Name</label>
+                                <input type="text" id="your-name" name="your_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="your-email">Your Email</label>
+                                <input type="email" id="your-email" name="your_email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="your-message">Your Message</label>
+                                <textarea id="your-message" name="your_message" rows="6" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn-send-message">Send Message ➔</button>
+                            </div>
+                        </form>
+                        <div id="form-status-message" style="margin-top: 15px;"></div>
+                    </div>
                 </div>
             </div>
         </section>
