@@ -28,7 +28,7 @@ error_reporting(E_ALL);
                 <li><a href="#contact-section">Contact</a></li>
                 <li>
                     <a href="admin/add_item.php" title="Admin Panel" class="admin-nav-icon">
-                        👤
+                        <i class="fa-solid fa-gear"></i>
                     </a>
                 </li>
             </ul>
@@ -179,7 +179,67 @@ error_reporting(E_ALL);
                 </div>
             </div>
         </section>
+        <?php
+        include_once 'connection.php';
 
+        $testimonials_list_data = [];
+        if (isset($conn) && !$conn->connect_error) {
+            $sql_testimonials_query = "SELECT client_name, testimonial_text, rating, designation
+                                FROM testimonials
+                                WHERE is_featured = 1
+                                ORDER BY sort_order ASC, created_at DESC
+                                LIMIT 5";
+            $result_testimonials_query = $conn->query($sql_testimonials_query);
+            if ($result_testimonials_query && $result_testimonials_query->num_rows > 0) {
+                while ($row_testimonial_data = $result_testimonials_query->fetch_assoc()) {
+                    $testimonials_list_data[] = $row_testimonial_data;
+                }
+            }
+        }
+        ?>
+        <section class="testimonials-section" id="testimonials">
+            <div class="container">
+                <div class="section-title-testimonials">
+                    <h2>What Our Clients Say</h2>
+                </div>
+
+                <?php if (!empty($testimonials_list_data)): ?>
+                    <div class="testimonial-slider-container">
+                        <div class="testimonial-slider">
+                            <?php foreach ($testimonials_list_data as $testimonial_item): ?>
+                                <div class="testimonial-slide">
+                                    <div class="testimonial-card">
+                                        <div class="rating-stars">
+                                            <?php
+                                            $rating_value = intval($testimonial_item['rating']);
+                                            for ($i = 1; $i <= 5; $i++) {
+                                                echo ($i <= $rating_value) ? '<span class="star filled">★</span>' : '<span class="star empty">☆</span>';
+                                            }
+                                            ?>
+                                        </div>
+                                        <p class="testimonial-quote">"<?php echo nl2br(htmlspecialchars($testimonial_item['testimonial_text'])); ?>"</p>
+                                        <div class="client-info">
+                                            <h4 class="client-name">- <?php echo htmlspecialchars($testimonial_item['client_name']); ?></h4>
+                                            <?php if (!empty($testimonial_item['designation'])): ?>
+                                                <p class="client-designation"><?php echo htmlspecialchars($testimonial_item['designation']); ?></p>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="slider-nav-arrows">
+                            <button class="slider-arrow prev-arrow" aria-label="Previous Testimonial">❮</button>
+                            <button class="slider-arrow next-arrow" aria-label="Next Testimonial">❯</button>
+                        </div>
+                        <div class="slider-nav-dots"></div>
+                    </div>
+                <?php else: ?>
+                    <p style="text-align:center; color:#777; padding: 20px 0;">We are grateful for all our clients! More testimonials coming soon.</p>
+                <?php endif; ?>
+            </div>
+        </section>
+        <!-- END TESTIMONIALS SECTION -->
         <section class="contact-section" id="contact-section">
             <div class="container">
                 <div class="section-title-contact">
@@ -202,7 +262,7 @@ error_reporting(E_ALL);
 
                         <div class="contact-info-item">
                             <div class="contact-icon email-icon">
-                                📧 
+                                📧
                             </div>
                             <div class="contact-text">
                                 <h4>Email Us</h4>

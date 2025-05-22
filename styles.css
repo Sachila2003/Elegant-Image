@@ -259,6 +259,234 @@ main { padding-top: 80px; }
 .lightbox-prev { left: 15px; }
 .lightbox-prev:hover, .lightbox-next:hover { background-color: rgba(255,255,255,0.25); }
 
+/* =================================== */
+/*  TESTIMONIALS SECTION STYLES        */
+/* =================================== */
+.testimonials-section {
+    padding: 60px 20px;
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+}
+
+.testimonials-section .container {
+    max-width: 1100px; /* Ensure this matches your global container or adjust */
+    margin: 0 auto;
+    /* padding: 0 15px; /* Already on global .container, but ensure it's there */
+}
+
+.section-title-testimonials {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-title-testimonials h2 {
+    font-size: 2.2em;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 8px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.section-title-testimonials h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 3.5px;
+    background-color: #e74c3c; /* Your theme's accent color */
+    border-radius: 2px;
+}
+
+.testimonial-slider-container {
+    max-width: 750px; /* Adjust to fit one card comfortably with space for arrows */
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden; /* This is key for the sliding effect */
+    padding: 0 50px; /* Increased padding to ensure arrows are well within */
+    box-sizing: border-box;
+}
+
+.testimonial-slider {
+    display: flex;
+    transition: transform 0.45s ease-in-out; /* Smooth transition */
+}
+
+.testimonial-slide {
+    min-width: 100%; /* Each slide takes full width of the PADDED container's content box */
+    flex-shrink: 0;
+    box-sizing: border-box;
+    /* Padding is removed from here, will be on the card or container */
+}
+
+.testimonial-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.07); /* Slightly more pronounced shadow */
+    padding: 30px 35px; /* Good padding inside the card */
+    text-align: center;
+    min-height: 280px; /* Adjust based on your longest testimonial to maintain consistency */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 10px; /* Margin around the card to create space if slide padding is 0 */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.rating-stars {
+    margin-bottom: 15px;
+    line-height: 1;
+}
+
+.rating-stars .star {
+    font-size: 1.25em;
+    color: #ffc107;
+    margin: 0 1px;
+}
+
+.rating-stars .star.empty {
+    color: #e4e4e4; /* Slightly darker empty star */
+}
+
+.testimonial-quote {
+    font-size: 1em;
+    color: #5a5a5a; /* Slightly darker quote text for readability */
+    line-height: 1.65;
+    margin-bottom: 20px;
+    font-style: italic;
+    flex-grow: 1;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* Max 5 lines before ellipsis */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: calc(1em * 1.65 * 5); /* Fallback for non-webkit browsers */
+}
+
+.client-info {
+    margin-top: 15px; /* Space above client name */
+}
+
+.client-name {
+    font-size: 1.05em;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 3px;
+    display: block;
+}
+
+.client-designation {
+    font-size: 0.85em;
+    color: #777;
+    display: block;
+}
+
+.slider-nav-arrows {
+    position: absolute;
+    top: 50%;
+    left: 0; /* Starts from the edge of the PADDED .testimonial-slider-container */
+    right: 0;/* Ends at the edge of the PADDED .testimonial-slider-container */
+    height: 0; /* Only for positioning reference */
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.slider-arrow {
+    background-color: rgba(30, 30, 30, 0.5); /* Darker, more contrast for arrows */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;  /* Size of the arrow button */
+    height: 40px; /* Size of the arrow button */
+    font-size: 1.2em; /* Size of the arrow icon/character */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    pointer-events: auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.slider-arrow:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+    transform: scale(1.1);
+}
+/* No specific prev/next arrow margins if container padding handles their position */
+
+.slider-nav-dots {
+    text-align: center;
+    margin-top: 30px; /* Increased space for dots */
+}
+
+.slider-nav-dots .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #bdbdbd; /* Slightly darker inactive dot */
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.slider-nav-dots .dot.active-dot {
+    background-color: #e74c3c; /* Accent color for active dot */
+    transform: scale(1.3); /* Larger active dot */
+}
+
+/* Responsive Adjustments for Testimonials Section */
+@media (max-width: 900px) {
+    .testimonial-slider-container {
+        padding: 0 20px; /* Less padding for arrows on narrower screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .testimonials-section {
+        padding: 50px 15px;
+    }
+    .section-title-testimonials h2 {
+        font-size: 2em; /* Adjusted */
+    }
+    .testimonial-slider-container {
+        padding: 0 10px; /* Minimal padding for arrows */
+    }
+    .testimonial-card {
+        padding: 20px;
+        min-height: 260px; /* Adjust if needed for mobile content */
+    }
+    .testimonial-quote {
+        font-size: 0.9em;
+        -webkit-line-clamp: 6; /* Allow more lines for smaller font */
+        max-height: calc(0.9em * 1.6 * 6);
+    }
+    .slider-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .testimonial-card {
+        margin: 10px 0;
+        padding: 20px 15px; /* More padding for very small screens */
+        min-height: 280px; /* May need more height if text wraps a lot */
+    }
+     .testimonial-slider-container {
+        padding: 0 5px; /* Very minimal padding, arrows will be close to edge */
+    }
+    .rating-stars .star {
+        font-size: 1.1em;
+    }
+}
 /* styles.css - Add these styles */
 
 /* =================================== */
