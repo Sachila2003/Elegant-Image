@@ -201,102 +201,109 @@ document.addEventListener('DOMContentLoaded', function () {
 // ===================================
 //  TESTIMONIAL SLIDER (REFINED)
 // ===================================
-const testimonialSliderContainer = document.querySelector('.testimonial-slider-container');
+// script.js - Ensure this is within your main DOMContentLoaded listener
 
-if (testimonialSliderContainer) {
-    const slider = testimonialSliderContainer.querySelector('.testimonial-slider');
-    const slides = slider ? Array.from(slider.querySelectorAll('.testimonial-slide')) : [];
-    const prevButton = testimonialSliderContainer.querySelector('.slider-nav-arrows .prev-arrow');
-    const nextButton = testimonialSliderContainer.querySelector('.slider-nav-arrows .next-arrow');
-    const dotsContainer = testimonialSliderContainer.querySelector('.slider-nav-dots');
+// ===================================
+//  TESTIMONIAL SLIDER SCRIPT
+// ===================================
+const testimonialSliderWrapperGlobal = document.querySelector('.testimonial-slider-wrapper');
 
-    let currentIndex = 0;
-    const totalSlides = slides.length;
+if (testimonialSliderWrapperGlobal) {
+    const sliderContainerGlobal = testimonialSliderWrapperGlobal.querySelector('.testimonial-slider-container');
+    const sliderTrackGlobal = sliderContainerGlobal ? sliderContainerGlobal.querySelector('.testimonial-slider') : null;
+    const slidesGlobal = sliderTrackGlobal ? Array.from(sliderTrackGlobal.querySelectorAll('.testimonial-slide')) : [];
 
-    function updateSliderPosition() {
-        if (slider) {
-            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+    const navControlsGlobal = testimonialSliderWrapperGlobal.querySelector('.slider-nav-controls');
+    const prevButtonGlobal = navControlsGlobal ? navControlsGlobal.querySelector('.prev-arrow') : null;
+    const nextButtonGlobal = navControlsGlobal ? navControlsGlobal.querySelector('.next-arrow') : null;
+    const dotsContainerGlobal = navControlsGlobal ? navControlsGlobal.querySelector('.slider-nav-dots') : null;
+
+    let currentTestimonialIndex = 0;
+    const totalTestimonialSlides = slidesGlobal.length;
+
+    function updateTestimonialSliderPosition() {
+        if (sliderTrackGlobal) {
+            sliderTrackGlobal.style.transform = `translateX(-${currentTestimonialIndex * 100}%)`;
         }
-        updateDots();
+        updateTestimonialDots();
+        updateArrowStates(); // Function to disable/enable arrows
     }
 
-    function updateDots() {
-        if (!dotsContainer || totalSlides <= 1) return;
-        const dots = dotsContainer.querySelectorAll('.dot');
+    function updateTestimonialDots() {
+        if (!dotsContainerGlobal || totalTestimonialSlides <= 1) return;
+        const dots = dotsContainerGlobal.querySelectorAll('.dot');
         dots.forEach((dot, index) => {
-            dot.classList.toggle('active-dot', index === currentIndex);
+            dot.classList.toggle('active-dot', index === currentTestimonialIndex);
         });
     }
 
-    function createDots() {
-        if (!dotsContainer || totalSlides <= 1) {
-            if (dotsContainer) dotsContainer.style.display = 'none';
-            if (prevButton && nextButton && totalSlides <= 1) {
-                if(prevButton) prevButton.style.display = 'none';
-                if(nextButton) nextButton.style.display = 'none';
-            }
+    function createTestimonialDots() {
+        if (!dotsContainerGlobal || totalTestimonialSlides <= 1) {
+            if (navControlsGlobal) navControlsGlobal.style.display = 'none';
             return;
         }
+        if (navControlsGlobal) navControlsGlobal.style.display = 'flex'; // Or 'block'
 
-        dotsContainer.innerHTML = ''; // Clear existing dots
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('button');
-            dot.classList.add('dot');
-            dot.setAttribute('aria-label', `Go to testimonial ${i + 1}`);
-            dot.addEventListener('click', () => {
-                currentIndex = i;
-                updateSliderPosition();
+        dotsContainerGlobal.innerHTML = '';
+        for (let i = 0; i < totalTestimonialSlides; i++) {
+            const dotButton = document.createElement('button'); // Use button for accessibility
+            dotButton.classList.add('dot');
+            dotButton.setAttribute('type', 'button');
+            dotButton.setAttribute('aria-label', `Go to testimonial ${i + 1}`);
+            dotButton.addEventListener('click', () => {
+                currentTestimonialIndex = i;
+                updateTestimonialSliderPosition();
             });
-            dotsContainer.appendChild(dot);
+            dotsContainerGlobal.appendChild(dotButton);
         }
     }
 
-    function showNextSlide() {
-        currentIndex = (currentIndex + 1) % totalSlides;
-        updateSliderPosition();
+    function updateArrowStates() { // Optional: Disable arrows at ends if not looping
+        if (!prevButtonGlobal || !nextButtonGlobal || totalTestimonialSlides <= 1) return;
+        // If you don't want looping, disable buttons:
+        // prevButtonGlobal.disabled = currentTestimonialIndex === 0;
+        // nextButtonGlobal.disabled = currentTestimonialIndex === totalTestimonialSlides - 1;
     }
 
-    function showPrevSlide() {
-        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-        updateSliderPosition();
+    function showNextTestimonialSlide() {
+        currentTestimonialIndex = (currentTestimonialIndex + 1) % totalTestimonialSlides; // Loops
+        updateTestimonialSliderPosition();
+    }
+
+    function showPrevTestimonialSlide() {
+        currentTestimonialIndex = (currentTestimonialIndex - 1 + totalTestimonialSlides) % totalTestimonialSlides; // Loops
+        updateTestimonialSliderPosition();
     }
 
     // Initialization
-    if (slider && totalSlides > 0) {
-        createDots();
-        updateSliderPosition(); // Show the first slide
+    if (sliderTrackGlobal && totalTestimonialSlides > 0) {
+        createTestimonialDots();
+        updateTestimonialSliderPosition(); // Set initial position and dots
 
-        if (nextButton) {
-            nextButton.addEventListener('click', showNextSlide);
-        } else {
-            console.warn("Testimonial slider 'next' button not found.");
+        if (nextButtonGlobal) {
+            nextButtonGlobal.addEventListener('click', showNextTestimonialSlide);
+        }
+        if (prevButtonGlobal) {
+            prevButtonGlobal.addEventListener('click', showPrevTestimonialSlide);
         }
 
-        if (prevButton) {
-            prevButton.addEventListener('click', showPrevSlide);
-        } else {
-            console.warn("Testimonial slider 'previous' button not found.");
-        }
+        // Optional: Auto-slide
+        // let autoSlideInterval = setInterval(showNextTestimonialSlide, 7000); // Change every 7 seconds
+        // testimonialSliderWrapperGlobal.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+        // testimonialSliderWrapperGlobal.addEventListener('mouseleave', () => autoSlideInterval = setInterval(showNextTestimonialSlide, 7000));
 
-    } else if (testimonialSliderContainer) { // If container exists but no slides or slider element
-        const navArrows = testimonialSliderContainer.querySelector('.slider-nav-arrows');
-        if (navArrows) navArrows.style.display = 'none';
-        if (dotsContainer) dotsContainer.style.display = 'none';
-        if (slider && totalSlides === 0) {
-            // console.log("Testimonial slider found, but no slides to display.");
-        } else if (!slider) {
-            // console.error("Element with class '.testimonial-slider' not found inside '.testimonial-slider-container'.");
-        }
+    } else if (testimonialSliderWrapperGlobal) {
+        if (navControlsGlobal) navControlsGlobal.style.display = 'none';
+        // console.log("Testimonial slider found, but no slides or track.");
     }
 } else {
-    // console.log("Element with class '.testimonial-slider-container' not found.");
+    // console.log("Testimonial slider wrapper not found.");
 }
 // ===================================
-//  END TESTIMONIAL SLIDER
+//  TESTIMONIAL SLIDER SCRIPT END
 // ===================================
 
-// ... (Your other JS: Hero, About, Portfolio Lightbox, Smooth Scroll should be here,
-//      also inside the main DOMContentLoaded listener, but separate from this slider logic) ...
+
     // ===================================
     //  SMOOTH SCROLL FOR NAV LINKS
     // ===================================

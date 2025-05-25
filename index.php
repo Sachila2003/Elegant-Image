@@ -24,7 +24,7 @@ error_reporting(E_ALL);
                 <li><a href="#" class="active">Home</a></li>
                 <li><a href="#about-section">About</a></li>
                 <li><a href="#portfolio-section">Portfolio</a></li>
-                <li><a href="#">Testimonials</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
                 <li><a href="#contact-section">Contact</a></li>
                 <li>
                     <a href="admin/add_item.php" title="Admin Panel" class="admin-nav-icon">
@@ -45,7 +45,7 @@ error_reporting(E_ALL);
             <div class="hero-gallery">
                 <div class="photo-slot" id="slot1"><img src="placeholder1.jpg" alt="Photography example 1"></div>
                 <div class="photo-slot" id="slot2"><img src="placeholder2.jpg" alt="Photography example 2"></div>
-                <div class="photo-slot" id="slot3"><img src="placeholder3.jpg" alt="Photography example 3"></div>
+                <!-- <div class="photo-slot" id="slot3"><img src="placeholder3.jpg" alt="Photography example 3"></div> -->
                 <div class="photo-slot" id="slot4"><img src="placeholder4.jpg" alt="Photography example 4"></div>
             </div>
         </section>
@@ -179,16 +179,16 @@ error_reporting(E_ALL);
                 </div>
             </div>
         </section>
+        <!-- index.php - Testimonial Section START -->
         <?php
-        include_once 'connection.php';
 
         $testimonials_list_data = [];
         if (isset($conn) && !$conn->connect_error) {
             $sql_testimonials_query = "SELECT client_name, testimonial_text, rating, designation
-                                FROM testimonials
-                                WHERE is_featured = 1
-                                ORDER BY sort_order ASC, created_at DESC
-                                LIMIT 5";
+                               FROM testimonials
+                               WHERE is_featured = 1 /* Assuming you have a way to feature them */
+                               ORDER BY sort_order ASC, created_at DESC
+                               LIMIT 5"; // Show up to 5 testimonials
             $result_testimonials_query = $conn->query($sql_testimonials_query);
             if ($result_testimonials_query && $result_testimonials_query->num_rows > 0) {
                 while ($row_testimonial_data = $result_testimonials_query->fetch_assoc()) {
@@ -204,35 +204,48 @@ error_reporting(E_ALL);
                 </div>
 
                 <?php if (!empty($testimonials_list_data)): ?>
-                    <div class="testimonial-slider-container">
-                        <div class="testimonial-slider">
-                            <?php foreach ($testimonials_list_data as $testimonial_item): ?>
-                                <div class="testimonial-slide">
-                                    <div class="testimonial-card">
-                                        <div class="rating-stars">
-                                            <?php
-                                            $rating_value = intval($testimonial_item['rating']);
-                                            for ($i = 1; $i <= 5; $i++) {
-                                                echo ($i <= $rating_value) ? '<span class="star filled">★</span>' : '<span class="star empty">☆</span>';
-                                            }
-                                            ?>
-                                        </div>
-                                        <p class="testimonial-quote">"<?php echo nl2br(htmlspecialchars($testimonial_item['testimonial_text'])); ?>"</p>
-                                        <div class="client-info">
-                                            <h4 class="client-name">- <?php echo htmlspecialchars($testimonial_item['client_name']); ?></h4>
-                                            <?php if (!empty($testimonial_item['designation'])): ?>
-                                                <p class="client-designation"><?php echo htmlspecialchars($testimonial_item['designation']); ?></p>
+                    <div class="testimonial-slider-wrapper">
+                        <div class="testimonial-slider-container"> 
+                            <div class="testimonial-slider">
+                                <?php foreach ($testimonials_list_data as $index => $testimonial_item): ?>
+                                    <div class="testimonial-slide">
+                                        <div class="testimonial-card">
+                                            <?php if (isset($testimonial_item['rating']) && $testimonial_item['rating'] > 0): ?>
+                                                <div class="rating-stars">
+                                                    <?php
+                                                    $rating_value = intval($testimonial_item['rating']);
+                                                    for ($i = 1; $i <= 5; $i++) {
+                                                        echo ($i <= $rating_value) ? '<span class="star filled">★</span>' : '<span class="star empty">☆</span>';
+                                                    }
+                                                    ?>
+                                                </div>
                                             <?php endif; ?>
+                                            <p class="testimonial-quote">"<?php echo nl2br(htmlspecialchars($testimonial_item['testimonial_text'])); ?>"</p>
+                                            <div class="client-info">
+                                                <h4 class="client-name">- <?php echo htmlspecialchars($testimonial_item['client_name']); ?></h4>
+                                                <?php if (!empty($testimonial_item['designation'])): ?>
+                                                    <p class="client-designation"><?php echo htmlspecialchars($testimonial_item['designation']); ?></p>
+                                                <?php endif; ?>
+                                            </div>
                                         </div>
                                     </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+
+                        <!-- Navigation Arrows and Dots - MOVED OUTSIDE testimonial-slider-container -->
+                        <?php if (count($testimonials_list_data) > 1): // Only show nav if more than one slide 
+                        ?>
+                            <div class="slider-nav-controls">
+                                <div class="slider-nav-arrows">
+                                    <button type="button" class="slider-arrow prev-arrow" aria-label="Previous Testimonial">❮</button>
+                                    <button type="button" class="slider-arrow next-arrow" aria-label="Next Testimonial">❯</button>
                                 </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <div class="slider-nav-arrows">
-                            <button class="slider-arrow prev-arrow" aria-label="Previous Testimonial">❮</button>
-                            <button class="slider-arrow next-arrow" aria-label="Next Testimonial">❯</button>
-                        </div>
-                        <div class="slider-nav-dots"></div>
+                                <div class="slider-nav-dots">
+                                    <!-- Dots will be generated by JavaScript -->
+                                </div>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 <?php else: ?>
                     <p style="text-align:center; color:#777; padding: 20px 0;">We are grateful for all our clients! More testimonials coming soon.</p>
