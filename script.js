@@ -317,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         sendWhatsappBtn.addEventListener('click', function (event) {
             event.preventDefault();
-            const yourWhatsAppNumber = '94724178024';
+            const yourWhatsAppNumber = '94742715484';
             const name = inputName ? inputName.value.trim() : '';
             const subject = inputSubject ? inputSubject.value.trim() : '';
             const message = inputMessage ? inputMessage.value.trim() : '';

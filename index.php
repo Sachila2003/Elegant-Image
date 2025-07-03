@@ -273,7 +273,7 @@ error_reporting(E_ALL);
                             </div>
                             <div class="contact-text">
                                 <h4>Call Us</h4>
-                                <p>+62 11-9518-9545</p>
+                                <p>+94 74-271-5484</p>
                                 <small>Available 9:00 AM - 6:00 PM</small>
                             </div>
                         </div>
@@ -284,7 +284,7 @@ error_reporting(E_ALL);
                             </div>
                             <div class="contact-text">
                                 <h4>Email Us</h4>
-                                <p>brotherphotography@gmail.com</p>
+                                <p>Contact.elegantimage@gmail.com</p>
                                 <small>We reply within 24 hours</small>
                             </div>
                         </div>
@@ -293,7 +293,7 @@ error_reporting(E_ALL);
                             <h4>Connect With Us</h4>
                             <div class="social-icons">
                                 <a href="#" target="_blank" class="social-icon fb" title="Facebook"><i
-                                        class="fa-brands fa-facebook"></i></a> 
+                                        class="fa-brands fa-facebook"></i></a>
                                 <a href="#" target="_blank" class="social-icon ig" title="Instagram"><i
                                         class="fa-brands fa-square-instagram"></i></a>
                                 <a href="#" target="_blank" class="social-icon tk" title="TikTok"><i
