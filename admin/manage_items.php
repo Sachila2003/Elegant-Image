@@ -1,13 +1,82 @@
 <?php
-// admin/manage_items.php
-if (session_status() === PHP_SESSION_NONE) { // Start session if not already started for messages
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once '../connection.php';
 
-// Handle Delete Action (this part remains the same)
+// Handle Delete Action
 if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']) && is_numeric($_GET['id'])) {
+$item_id_to_delete = $_GET['id'];
+$conn->begin_transaction(); // Start transaction for data consistency
+
+try {
+    // Step 1: Get the path of the main thumbnail image
+    $stmt_thumb = $conn->prepare("SELECT image_thumb FROM portfolio_items WHERE id = ?");
+    $stmt_thumb->bind_param("i", $item_id_to_delete);
+    $stmt_thumb->execute();
+    $result_thumb = $stmt_thumb->get_result();
+    $thumb_data = ($result_thumb->num_rows > 0) ? $result_thumb->fetch_assoc() : null;
+    $stmt_thumb->close();
+
+    // Step 2: Get the paths of all associated album images
+    $stmt_album_imgs = $conn->prepare("SELECT image_path FROM portfolio_item_images WHERE portfolio_item_id = ?");
+    $stmt_album_imgs->bind_param("i", $item_id_to_delete);
+    $stmt_album_imgs->execute();
+    $result_album_imgs = $stmt_album_imgs->get_result();
+    $album_image_paths = [];
+    if ($result_album_imgs->num_rows > 0) {
+        while ($album_img_data = $result_album_imgs->fetch_assoc()) {
+            $album_image_paths[] = $album_img_data['image_path'];
+        }
+    }
+    $stmt_album_imgs->close();
+
+    // Delete from child table 'portfolio_item_images'
+    $stmt_delete_album_refs = $conn->prepare("DELETE FROM portfolio_item_images WHERE portfolio_item_id = ?");
+    $stmt_delete_album_refs->bind_param("i", $item_id_to_delete);
+    $stmt_delete_album_refs->execute();
+    $stmt_delete_album_refs->close();
+
+    // Delete from parent table 'portfolio_items'
+    $stmt_delete_main = $conn->prepare("DELETE FROM portfolio_items WHERE id = ?");
+    $stmt_delete_main->bind_param("i", $item_id_to_delete);
+    if ($stmt_delete_main->execute()) {
+        $deleted_rows = $stmt_delete_main->affected_rows;
+        $stmt_delete_main->close();
+
+        if ($deleted_rows > 0) {
+            // Delete the thumbnail file
+            if (!empty($thumb_data['image_thumb']) && file_exists('../' . $thumb_data['image_thumb'])) {
+                unlink('../' . $thumb_data['image_thumb']);
+            }
+            // Delete each album image file
+            foreach ($album_image_paths as $album_path) {
+                if (!empty($album_path) && file_exists('../' . $album_path)) {
+                    unlink('../' . $album_path);
+                }
+            }
+
+            $conn->commit(); // All operations successful, commit the transaction
+            $_SESSION['message'] = ['type' => 'success', 'text' => 'Item (ID: ' . $item_id_to_delete . ') and all associated files have been deleted.'];
+        } else {
+            // If no rows were deleted, it means the item didn't exist. Rollback.
+            throw new Exception("Item not found in the database. No records deleted.");
+        }
+    } else {
+        throw new Exception("Failed to execute delete statement for the main item.");
+    }
+
+} catch (Exception $e) {
+    $conn->rollback();
+    error_log("DELETE_ITEM_ERROR (ID: $item_id_to_delete): " . $e->getMessage());
+    $_SESSION['message'] = ['type' => 'error', 'text' => 'An error occurred while trying to delete the item. Please try again.'];
 }
+
+// Redirect back to the manage_items page to show the result
+header('Location: manage_items.php');
+exit();
+}
+
 
 $portfolio_items = [];
 $sql = "SELECT id, title, category, image_thumb, uploaded_at FROM portfolio_items ORDER BY uploaded_at DESC";

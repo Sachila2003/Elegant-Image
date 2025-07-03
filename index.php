@@ -15,28 +15,28 @@ error_reporting(E_ALL);
 </head>
 
 <body>
-    <header>
-        <div class="logo">
-            <a href="#">Elegant Image</a>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="#about-section">About</a></li>
-                <li><a href="#portfolio-section">Portfolio</a></li>
-                <li><a href="#testimonials">Testimonials</a></li>
-                <li><a href="#contact-section">Contact</a></li>
-                <li>
-                    <a href="admin/add_item.php" title="Admin Panel" class="admin-nav-icon">
-                        <i class="fa-solid fa-gear"></i>
-                    </a>
-                </li>
-            </ul>
+    <!-- index.php - UPDATED Header -->
+    <header class="header">
+        <a href="#home" class="logo">
+            <img src="images/logo.jpg" alt="Elegant Image Logo">
+            <span>Elegant Image</span>
+        </a>
+        <nav class="navbar">
+            <!-- Regular Navigation Links -->
+            <a href="#home" class="active">Home</a>
+            <a href="#about-section">About</a>
+            <a href="#portfolio-section">Portfolio</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#contact-section">Contact</a>
         </nav>
+        <!-- Admin Icon Link - MOVED OUTSIDE the navbar links group -->
+        <a href="admin/login.php" class="admin-nav-icon" title="Admin Panel">
+            <i class="fa-solid fa-gear"></i>
+        </a>
     </header>
 
     <main>
-        <section class="hero">
+        <section class="hero" id="home">
             <div class="hero-text">
                 <h1>I'm here to <span class="highlight">capture</span> your moments.</h1>
                 <p>I would like to give you a unique photography experience & capture your special moments for you.</p>
@@ -97,7 +97,8 @@ error_reporting(E_ALL);
                 ?>
 
                 <div class="portfolio-filters">
-                    <a href="?filter_category=all#portfolio-section" class="<?php echo ($current_filter == 'all' ? 'filter-active' : ''); ?>">All</a>
+                    <a href="?filter_category=all#portfolio-section"
+                        class="<?php echo ($current_filter == 'all' ? 'filter-active' : ''); ?>">All</a>
                     <?php
                     $design_categories = ['wedding', 'portrait', 'pre-shoot', 'baby'];
                     foreach ($design_categories as $cat_slug) {
@@ -131,7 +132,8 @@ error_reporting(E_ALL);
                                 } else {
                                     $result = $stmt->get_result();
                                 }
-                                if ($stmt) $stmt->close();
+                                if ($stmt)
+                                    $stmt->close();
                             }
                         } else {
                             $result_query = $conn->query($sql);
@@ -179,16 +181,15 @@ error_reporting(E_ALL);
                 </div>
             </div>
         </section>
-        <!-- index.php - Testimonial Section START -->
         <?php
 
         $testimonials_list_data = [];
         if (isset($conn) && !$conn->connect_error) {
             $sql_testimonials_query = "SELECT client_name, testimonial_text, rating, designation
                                FROM testimonials
-                               WHERE is_featured = 1 /* Assuming you have a way to feature them */
+                               WHERE is_featured = 1
                                ORDER BY sort_order ASC, created_at DESC
-                               LIMIT 5"; // Show up to 5 testimonials
+                               LIMIT 5";
             $result_testimonials_query = $conn->query($sql_testimonials_query);
             if ($result_testimonials_query && $result_testimonials_query->num_rows > 0) {
                 while ($row_testimonial_data = $result_testimonials_query->fetch_assoc()) {
@@ -205,7 +206,7 @@ error_reporting(E_ALL);
 
                 <?php if (!empty($testimonials_list_data)): ?>
                     <div class="testimonial-slider-wrapper">
-                        <div class="testimonial-slider-container"> 
+                        <div class="testimonial-slider-container">
                             <div class="testimonial-slider">
                                 <?php foreach ($testimonials_list_data as $index => $testimonial_item): ?>
                                     <div class="testimonial-slide">
@@ -220,11 +221,15 @@ error_reporting(E_ALL);
                                                     ?>
                                                 </div>
                                             <?php endif; ?>
-                                            <p class="testimonial-quote">"<?php echo nl2br(htmlspecialchars($testimonial_item['testimonial_text'])); ?>"</p>
+                                            <p class="testimonial-quote">
+                                                "<?php echo nl2br(htmlspecialchars($testimonial_item['testimonial_text'])); ?>"
+                                            </p>
                                             <div class="client-info">
-                                                <h4 class="client-name">- <?php echo htmlspecialchars($testimonial_item['client_name']); ?></h4>
+                                                <h4 class="client-name">-
+                                                    <?php echo htmlspecialchars($testimonial_item['client_name']); ?></h4>
                                                 <?php if (!empty($testimonial_item['designation'])): ?>
-                                                    <p class="client-designation"><?php echo htmlspecialchars($testimonial_item['designation']); ?></p>
+                                                    <p class="client-designation">
+                                                        <?php echo htmlspecialchars($testimonial_item['designation']); ?></p>
                                                 <?php endif; ?>
                                             </div>
                                         </div>
@@ -233,22 +238,22 @@ error_reporting(E_ALL);
                             </div>
                         </div>
 
-                        <!-- Navigation Arrows and Dots - MOVED OUTSIDE testimonial-slider-container -->
-                        <?php if (count($testimonials_list_data) > 1): // Only show nav if more than one slide 
-                        ?>
+                        <?php if (count($testimonials_list_data) > 1): ?>
                             <div class="slider-nav-controls">
                                 <div class="slider-nav-arrows">
-                                    <button type="button" class="slider-arrow prev-arrow" aria-label="Previous Testimonial">❮</button>
-                                    <button type="button" class="slider-arrow next-arrow" aria-label="Next Testimonial">❯</button>
+                                    <button type="button" class="slider-arrow prev-arrow"
+                                        aria-label="Previous Testimonial">❮</button>
+                                    <button type="button" class="slider-arrow next-arrow"
+                                        aria-label="Next Testimonial">❯</button>
                                 </div>
                                 <div class="slider-nav-dots">
-                                    <!-- Dots will be generated by JavaScript -->
                                 </div>
                             </div>
                         <?php endif; ?>
                     </div>
                 <?php else: ?>
-                    <p style="text-align:center; color:#777; padding: 20px 0;">We are grateful for all our clients! More testimonials coming soon.</p>
+                    <p style="text-align:center; color:#777; padding: 20px 0;">We are grateful for all our clients! More
+                        testimonials coming soon.</p>
                 <?php endif; ?>
             </div>
         </section>
@@ -287,33 +292,40 @@ error_reporting(E_ALL);
                         <div class="connect-with-us">
                             <h4>Connect With Us</h4>
                             <div class="social-icons">
-                                <a href="#" target="_blank" class="social-icon fb" title="Facebook"><i class="fa-brands fa-facebook"></i></a> <!-- Placeholder, use actual icons -->
-                                <a href="#" target="_blank" class="social-icon ig" title="Instagram"><i class="fa-brands fa-square-instagram"></i></a>
-                                <a href="#" target="_blank" class="social-icon tk" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                                <a href="#" target="_blank" class="social-icon wa" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                                <a href="#" target="_blank" class="social-icon fb" title="Facebook"><i
+                                        class="fa-brands fa-facebook"></i></a> 
+                                <a href="#" target="_blank" class="social-icon ig" title="Instagram"><i
+                                        class="fa-brands fa-square-instagram"></i></a>
+                                <a href="#" target="_blank" class="social-icon tk" title="TikTok"><i
+                                        class="fa-brands fa-tiktok"></i></a>
+                                <a href="#" target="_blank" class="social-icon wa" title="WhatsApp"><i
+                                        class="fa-brands fa-whatsapp"></i></a>
                             </div>
                         </div>
                     </div>
+                    <!-- index.php - Contact Section -->
+
                     <div class="contact-form-column">
-                        <form action="process_contact_form.php" method="POST" class="contact-form">
+                        <div id="whatsapp-contact-form" class="contact-form">
                             <div class="form-group">
-                                <label for="your-name">Your Name</label>
-                                <input type="text" id="your-name" name="your_name" required>
+                                <label for="whatsapp_name">Your Name</label>
+                                <input type="text" id="whatsapp_name" name="name" placeholder="John Doe" required>
                             </div>
                             <div class="form-group">
-                                <label for="your-email">Your Email</label>
-                                <input type="email" id="your-email" name="your_email" required>
+                                <label for="whatsapp_subject">Subject</label>
+                                <input type="text" id="whatsapp_subject" name="subject"
+                                    placeholder="e.g., Wedding Photography Inquiry" required>
                             </div>
                             <div class="form-group">
-                                <label for="your-message">Your Message</label>
-                                <textarea id="your-message" name="your_message" rows="6" required></textarea>
+                                <label for="whatsapp_message">Your Message</label>
+                                <textarea id="whatsapp_message" name="message"
+                                    placeholder="Hi, I would like to know more about..." required></textarea>
                             </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn-send-message">Send Message ➔</button>
-                            </div>
-                        </form>
+                            <a href="#" id="send-whatsapp-btn" class="btn-send-message">Send Message via WhatsApp</a>
+                        </div>
                         <div id="form-status-message" style="margin-top: 15px;"></div>
                     </div>
+
                 </div>
             </div>
         </section>

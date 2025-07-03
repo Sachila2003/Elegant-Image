@@ -1,66 +1,321 @@
-/* Global Resets and Basic Styles */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; background-color: #f9f9f9; }
-.container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-img { max-width: 100%; height: auto; display: block; }
-a { text-decoration: none; color: inherit; }
+:root {
+    --primary-color: #776ffa;    
+    --primary-darker: #5b54d1;  
+    --secondary-color: #2d3142;      
+    --header-bg: #ffffff;           
+    --body-bg: #f8f9fa;            
+    --text-color: #555;             
+    --heading-font: 'Playfair Display', serif;
+    --body-font: 'Poppins', sans-serif;
+}
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: var(--body-font); 
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--heading-font); 
+    color: var(--secondary-color);
+}
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 8%;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: padding 0.3s ease;
+}
 
-/* Header Styling */
-header { background-color: #2c2c2c; color: #fff; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-header .logo a { color: #fff; font-size: 1.8em; font-weight: bold; }
-header nav ul { list-style: none; display: flex; margin: 0; padding: 0; }
-header nav ul li { margin-left: 25px; }
-header nav ul li a { color: #ddd; font-size: 1em; transition: color 0.3s ease; padding: 8px 10px; }
-header nav ul li a:hover, header nav ul li a.active { color: #e91e63; }
-header nav ul li a.admin-nav-icon { font-size: 1.3em; padding: 8px 8px; line-height: 1; }
-header nav ul li a.admin-nav-icon:hover { color: #e91e63; background-color: transparent; }
+/* Logo styles */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.logo img {
+    max-height: 40px;
+}
+.logo span {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: var(--heading-font);
+    color: var(--secondary-color);
+}
 
-/* Main Content Area */
+
+/* Navbar styles */
+.navbar a {
+    font-size: 1rem;
+    color: var(--secondary-color);
+    font-weight: 500;
+    margin: 0 15px; 
+    position: relative;
+    transition: color 0.3s ease;
+}
+.navbar a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease-in-out;
+}
+.navbar a:hover::after,
+.navbar a.active::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+.navbar a:hover,
+.navbar a.active {
+    color: var(--primary-color);
+}
+
+
+/* Admin Icon styles */
+.admin-nav-icon {
+    font-size: 1.5rem; 
+    color: var(--secondary-color);
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+.admin-nav-icon:hover {
+    color: var(--primary-color);
+    transform: rotate(90deg); 
+}
+
+
 main { padding-top: 80px; }
 
-/* Hero Section (No changes from your last provided CSS) */
-.hero { display: flex; align-items: center; justify-content: space-between; padding: 60px 5%; min-height: calc(100vh - 80px); background-color: #fff; }
-.hero-text { flex-basis: 45%; animation: slideInFromLeft 1s ease-out; }
-.hero-text h1 { font-size: 3.2em; margin-bottom: 20px; color: #222; line-height: 1.2; font-weight: bold; }
-.hero-text h1 .highlight { color: #e91e63; }
-.hero-text p { font-size: 1.1em; margin-bottom: 30px; color: #555; }
-.cta-button { background-color: #e91e63; color: #fff !important; padding: 12px 25px; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease; display: inline-block; }
-.cta-button:hover { background-color: #c2185b; transform: translateY(-2px); }
-.hero-gallery { flex-basis: 50%; position: relative; height: 500px; animation: fadeIn 1.5s ease-out; max-width: 600px; }
-.photo-slot { position: absolute; overflow: hidden; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.12); transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.5s ease; background-color: #eee; }
-.photo-slot:hover { transform: scale(1.03) translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.18); z-index: 10 !important; }
-.photo-slot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.5s ease-in-out; }
+/* Hero Section */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 5%;
+    min-height: calc(100vh - 80px); 
+    background-color: var(--background-color); 
+}
+
+.hero-text {
+    flex-basis: 45%;
+    animation: slideInFromLeft 1s ease-out;
+}
+
+.hero-text h1 {
+    font-size: 3.2em; 
+    margin-bottom: 20px;
+    color: var(--secondary-color); 
+    line-height: 1.2;
+    font-weight: bold;
+}
+
+.hero-text h1 .highlight {
+    color: var(--primary-color); 
+}
+
+.hero-text p {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    color: var(--text-color); 
+}
+
+.cta-button {
+    background-color: var(--primary-color); 
+    color: #fff !important; 
+    padding: 12px 25px;
+    border-radius: 5px; 
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(119, 111, 250, 0.3);
+}
+
+.cta-button:hover {
+    background-color: var(--primary-darker); 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(119, 111, 250, 0.4);
+}
+
+.hero-gallery {
+    flex-basis: 50%;
+    position: relative;
+    height: 500px;
+    animation: fadeIn 1.5s ease-out;
+    max-width: 600px;
+}
+
+.photo-slot {
+    position: absolute;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.5s ease;
+    background-color: #eee;
+}
+
+.photo-slot:hover {
+    transform: scale(1.03) translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    z-index: 10 !important;
+}
+
+.photo-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Positions of photo slots (no color changes needed here) */
 #slot1 { width: 65%; height: 75%; top: 5%; left: 5%; z-index: 3; }
 #slot2 { width: 40%; height: 50%; top: 40%; right: 5%; z-index: 2; transform: rotate(4deg); }
 #slot3 { width: 35%; height: 45%; top: 50%; left: 10%; z-index: 1; transform: rotate(-3deg); }
 #slot4 { width: 30%; height: 35%; top: 10%; right: 10%; z-index: 4; transform: rotate(6deg); }
 
 /* About Section (No changes from your last provided CSS) */
-.about { padding: 80px 5%; background-color: #ffffff; overflow: hidden; }
-.about-content { display: flex; align-items: center; gap: 60px; }
-.about-text { flex-basis: 55%; animation: slideInFromLeft 1s ease-out; }
-.about-text h2 { font-size: 2.5em; color: #222; margin-bottom: 10px; position: relative; padding-bottom: 10px; }
-.about-text h2::after { content: ''; position: absolute; left: 0; bottom: 0; width: 80px; height: 4px; background-color: #e91e63; border-radius: 2px; }
-.about-text h3 { font-size: 1.4em; color: #444; margin-bottom: 20px; font-weight: 600; padding-left: 15px; border-left: 3px solid #e91e63; }
-.about-text p { font-size: 1.05em; color: #555; margin-bottom: 20px; line-height: 1.7; }
-.stats-container { display: flex; justify-content: flex-start; gap: 40px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
-.stat-item { text-align: left; }
-.stat-number { display: block; font-size: 2.2em; font-weight: 700; color: #e91e63; line-height: 1; }
-.stat-label { display: block; font-size: 0.9em; color: #777; text-transform: uppercase; letter-spacing: 0.5px; }
-.about-image-slideshow { flex-basis: 40%; width: 100%; max-width: 350px; height: 420px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.12); position: relative; animation: zoomIn 1s ease-out 0.2s; animation-fill-mode: backwards; background-color: #f0f0f0; }
-.about-image-slideshow img#about-slideshow-image { width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; transition: opacity 0.7s ease-in-out; }
 
+.about {
+    padding: 80px 5%;
+    background-color: var(--background-color);
+    overflow: hidden;
+}
 
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.about-text {
+    flex-basis: 55%;
+    animation: slideInFromLeft 1s ease-out;
+}
+
+.about-text h2 {
+    font-size: 2.5em;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.about-text h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 80px;
+    height: 4px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+}
+
+.about-text h3 {
+    font-size: 1.4em;
+    color: var(--secondary-color);
+    margin: 15px 0 20px;
+    font-weight: 600;
+    padding-left: 15px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.about-text p {
+    font-size: 1.05em;
+    color: var(--text-color);
+    margin-bottom: 30px;
+    line-height: 1.7;
+}
+
+.stats-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+.stat-item {
+    text-align: left;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.2em;
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.9em;
+    color: var(--text-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.about-image-slideshow {
+    flex-basis: 40%;
+    width: 100%;
+    max-width: 350px;
+    height: 420px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    position: relative;
+    animation: zoomIn 1s ease-out 0.2s;
+    animation-fill-mode: backwards;
+    background-color: #f0f0f0;
+}
+
+.about-image-slideshow img#about-slideshow-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    transition: opacity 0.7s ease-in-out;
+}
 /* styles.css - Portfolio Section Title Styles */
-
 .section-title-portfolio {
     text-align: center;
     margin-bottom: 35px;
 }
 
-.section-title-portfolio h1 { 
+.section-title-portfolio h1 {
     font-size: 2.2em;
-    color: #333;
+    color: var(--secondary-color);
     margin-bottom: 8px;
     font-weight: 600;
     position: relative;
@@ -68,22 +323,27 @@ main { padding-top: 80px; }
     padding-bottom: 5px;
 }
 
-.section-title-portfolio h1::after { 
+.section-title-portfolio h1::after {
     content: '';
     position: absolute;
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
     width: 60px;
-    height: 3px; 
-    background-color: #c0392b;
+    height: 3px;
+    background-color: var(--primary-color);
     border-radius: 2px;
 }
 
+.section-title-portfolio h2 {
+    font-size: 1.4em;
+    font-weight: normal;
+    color: var(--text-color);
+}
 
 .section-title-portfolio .portfolio-subtitle {
-    font-size: 1.1em; 
-    color: #666;     
+    font-size: 1.1em;
+    color: var(--text-color);
     font-weight: normal;
     margin-top: 0;
 }
@@ -91,74 +351,66 @@ main { padding-top: 80px; }
 
 .portfolio-main-section {
     padding: 60px 0;
-    background-color: #ffffff;
+    background-color: var(--body-bg); 
 }
 
-.portfolio-main-section .container { 
-     width: 90%; max-width: 1200px; margin: 0 auto; 
-}
-
-.section-title-portfolio {
-    text-align: center;
-    margin-bottom: 25px;
-}
-.section-title-portfolio h2 {
-    font-size: 1.4em;
-    font-weight: normal;
-    color: #555;
+.portfolio-main-section .container {
+     width: 90%;
+     max-width: 1200px;
+     margin: 0 auto;
 }
 
 .portfolio-filters {
     text-align: center;
     margin-bottom: 35px;
 }
+
 .portfolio-filters a {
     margin: 0 10px;
     padding: 8px 0px;
     text-decoration: none;
-    color: #777;
+    color: var(--text-color);
     font-size: 1em;
     font-weight: 500;
     transition: color 0.3s ease, border-bottom-color 0.3s ease;
     border-bottom: 2px solid transparent;
 }
+
 .portfolio-filters a.filter-active,
 .portfolio-filters a:hover {
-    color: #333;
-    border-bottom-color: #c0392b;
+    color: var(--secondary-color);
+    border-bottom-color: var(--primary-color);
 }
 
+/* The Portfolio Grid layout */
 .portfolio-grid {
-   display: grid;
+    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 15px;
+    gap: 20px;
+    justify-items: center;
 }
 
-/* Styles for each portfolio item container */
 .portfolio-item {
     background-color: #ffffff;
     border-radius: 12px;
-    overflow: hidden; /* This is CRUCIAL for object-fit to work as expected */
+    overflow: hidden;
     box-shadow: 0 5px 15px rgba(0,0,0,0.07);
     position: relative;
+    width: 100%;
+    max-width: 320px;
+    justify-self: center;
     aspect-ratio: 1 / 1;
-    height: 280px;
-    width: 280px;
 }
-
-/* Styles for the image within a NORMAL portfolio item */
 .portfolio-item.normal-item img {
     width: 100%;
-    height: 100%; /* This makes the image fill the aspect-ratio defined by the parent */
+    height: 100%;
     object-fit: cover;
     display: block;
-    gap: 10px;
 }
 
-/* Hover effect on the portfolio item: image and overlay */
 .portfolio-item.normal-item:hover > img {
-    transform: scale(1.07); /* Slight zoom on image */
-    filter: brightness(0.5); /* Dim the image to make overlay text stand out */
+    transform: scale(1.07);
+    filter: brightness(0.5);
 }
 
 .portfolio-item.normal-item:hover .item-overlay {
@@ -166,50 +418,24 @@ main { padding-top: 80px; }
     visibility: visible;
 }
 
-/* The overlay div itself */
-.portfolio-item .item-overlay { /* Targeting .item-overlay inside any .portfolio-item */
+.portfolio-item .item-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Darker overlay for better text contrast */
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
     color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-    text-align: center;
-    opacity: 0; /* Hidden by default */
-    visibility: hidden; /* Hidden by default */
-    transition: opacity 0.35s ease-in-out, visibility 0s linear 0.35s; /* Smooth fade transition */
-    border-radius: 12px; /* Match parent's border radius */
-    pointer-events: none; /* Overlay itself is not clickable, only its children */
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 20px; box-sizing: border-box; text-align: center;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.35s ease-in-out, visibility 0s linear 0.35s;
+    border-radius: 12px;
+    pointer-events: none;
 }
-.portfolio-item .item-overlay > * { /* Children of overlay (title, p, a) ARE clickable */
-    pointer-events: auto;
-}
-
-.item-overlay .overlay-title {
-    font-size: 1.3em;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #fff;
-}
-
-.item-overlay .overlay-description {
-    font-size: 0.9em; /* Slightly larger description */
-    margin-bottom: 15px;
-    line-height: 1.45;
-    color: #f0f0f0; /* Slightly off-white */
-    max-height: calc(0.9em * 1.45 * 3); /* Approx 3 lines based on font-size and line-height */
-    overflow: hidden;
-}
+.portfolio-item .item-overlay > * { pointer-events: auto; }
+.item-overlay .overlay-title { font-size: 1.3em; margin-bottom: 8px; font-weight: 600; color: #fff; }
+.item-overlay .overlay-description { font-size: 0.9em; margin-bottom: 15px; line-height: 1.45; color: #f0f0f0; max-height: calc(0.9em * 1.45 * 3); overflow: hidden; }
 
 .item-overlay .btn-see-album {
-    background-color: #e74c3c;
+    background-color: var(--primary-color);
     color: white !important;
     padding: 9px 20px;
     text-decoration: none;
@@ -222,51 +448,36 @@ main { padding-top: 80px; }
     cursor: pointer;
 }
 .item-overlay .btn-see-album:hover {
-    background-color: #c0392b;
+    background-color: var(--primary-darker);
     transform: translateY(-1px);
 }
 
-
-/* Showcase Item Styles (These were mostly fine, ensuring consistency) */
-.portfolio-showcase-item {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; color: white; padding: 25px; box-sizing: border-box;
-}
-.portfolio-showcase-item .showcase-bg-img {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background-size: cover; background-position: center; z-index: 1;
-    filter: brightness(0.6) contrast(0.9); border-radius: 12px;
-}
+/* Showcase Item Styles */
+.portfolio-showcase-item { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: white; padding: 25px; box-sizing: border-box; }
+.portfolio-showcase-item .showcase-bg-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; filter: brightness(0.6) contrast(0.9); border-radius: 12px; }
 .portfolio-showcase-item:hover .showcase-bg-img { filter: brightness(0.5) contrast(1); }
 .portfolio-showcase-item .showcase-content { position: relative; z-index: 2; }
 .portfolio-showcase-item h3 { font-size: 1.7em; margin-bottom: 8px; font-weight: 600; }
 .portfolio-showcase-item p { font-size: 0.95em; margin-bottom: 18px; opacity: 0.9; }
-.btn-see-more { background-color: #e74c3c; color: white !important; padding: 10px 22px; border-radius: 20px; font-weight: 500; font-size: 0.9em; transition: background-color 0.3s ease, transform 0.2s ease; display: inline-block; border: none; }
-.btn-see-more:hover { background-color: #c0392b; transform: translateY(-2px); }
-.no-items-message { text-align: center; grid-column: 1 / -1; padding: 40px; color: #777; }
+.btn-see-more {
+    background-color: var(--primary-color);
+    color: white !important; padding: 10px 22px; border-radius: 20px; font-weight: 500; font-size: 0.9em; transition: background-color 0.3s ease, transform 0.2s ease; display: inline-block; border: none;
+}
+.btn-see-more:hover {
+    background-color: var(--primary-darker);
+    transform: translateY(-2px);
+}
 
-/* Lightbox Styles (No changes from your last provided CSS) */
-#lightbox { position: fixed; z-index: 1002; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.92); display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
-#lightbox.lightbox-visible { opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0s linear 0s; }
-.lightbox-hidden { display: none !important; }
-.lightbox-content { margin: auto; display: block; max-width: 85%; max-height: 75vh; border-radius: 5px; animation: lightboxZoom 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-@keyframes lightboxZoom { from {transform: scale(0.8); opacity: 0;} to {transform: scale(1); opacity: 1;} }
-#lightbox-caption { margin: 15px auto; display: block; width: 80%; max-width: 700px; text-align: center; color: #ccc; padding: 10px 0; font-size: 1.1em; line-height: 1.5; }
-.lightbox-close-btn { position: absolute; top: 20px; right: 35px; color: #f1f1f1; font-size: 45px; font-weight: bold; transition: 0.3s; cursor: pointer; line-height: 1; }
-.lightbox-close-btn:hover, .lightbox-close-btn:focus { color: #bbb; }
-.lightbox-prev, .lightbox-next { cursor: pointer; position: absolute; top: 50%; width: auto; padding: 18px; margin-top: -30px; color: white; font-weight: bold; font-size: 24px; transition: 0.5s ease; border-radius: 3px; user-select: none; background-color: rgba(50,50,50,0.4); }
-.lightbox-next { right: 15px; }
-.lightbox-prev { left: 15px; }
-.lightbox-prev:hover, .lightbox-next:hover { background-color: rgba(255,255,255,0.25); }
+.no-items-message { text-align: center; grid-column: 1 / -1; padding: 40px; color: var(--text-color); }
 
 
 /*  TESTIMONIALS SECTION STYLES        */
 
-
 .testimonials-section {
-    padding: 60px 20px;
-    background-color: #f8f9fa;
+    padding: 80px 20px;
+    background-color: #ffffff;
 }
+
 .section-title-testimonials {
     text-align: center;
     margin-bottom: 45px;
@@ -274,7 +485,7 @@ main { padding-top: 80px; }
 
 .section-title-testimonials h2 {
     font-size: 2.3em;
-    color: #333;
+    color: var(--secondary-color);
     font-weight: 600;
     margin-bottom: 8px;
     position: relative;
@@ -290,22 +501,21 @@ main { padding-top: 80px; }
     transform: translateX(-50%);
     width: 80px;
     height: 4px;
-    background-color: #e74c3c;
+    background-color: var(--primary-color);
     border-radius: 2px;
 }
 
 .testimonial-slider-wrapper {
     max-width: 700px;
-    margin: 0 auto;  
+    margin: 0 auto;
     position: relative;
 }
 
 .testimonial-slider-container {
     position: relative;
-    overflow: hidden; 
+    overflow: hidden;
     width: 100%;
     border-radius: 10px;
-    background-color: #ffffff;
 }
 
 .testimonial-slider {
@@ -317,22 +527,21 @@ main { padding-top: 80px; }
     min-width: 100%;
     flex-shrink: 0;
     box-sizing: border-box;
-    padding: 10px; 
+    padding: 10px;
 }
 
 .testimonial-card {
     background-color: #ffffff;
     border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-    padding: 30px 30px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07); /* Softer shadow */
+    padding: 35px; /* Slightly more padding */
     text-align: center;
     min-height: 260px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center; /* Center content vertically, good for short testimonials */
     width: 100%;
     box-sizing: border-box;
-    
 }
 
 .rating-stars {
@@ -342,7 +551,7 @@ main { padding-top: 80px; }
 
 .rating-stars .star {
     font-size: 1.2em;
-    color: #ffc107;
+    color: #ffc107; /* Gold for stars is universally good */
     margin: 0 1px;
 }
 
@@ -351,26 +560,25 @@ main { padding-top: 80px; }
 }
 
 .testimonial-quote {
-    font-size: 1em;
-    color: #555;
-    /* line-height: 1.6; */
-    /* margin-bottom: 20px; */
+    font-size: 1.05em; /* Slightly larger for emphasis */
+    color: var(--text-color); /* NEW - Softer gray for quote text */
+    line-height: 1.7; /* Increased for readability */
     font-style: italic;
-    /* flex-grow: 1; */
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    width: 100%;
-    max-width: 100%;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Allows this to grow and push client info down */
+    display: flex; /* To center the text vertically inside the quote area */
+    align-items: center;
+    justify-content: center;
 }
 
 .client-info {
-    margin-top: auto;
-    padding-top: 15px; 
+    margin-top: auto; /* Pushes to the bottom */
+    padding-top: 15px;
 }
 
 .client-name {
     font-size: 1.05em;
-    color: #333;
+    color: var(--secondary-color); /* NEW - Darker color for client name */
     font-weight: bold;
     margin-bottom: 3px;
     display: block;
@@ -378,29 +586,29 @@ main { padding-top: 80px; }
 
 .client-designation {
     font-size: 0.85em;
-    color: #777;
+    color: var(--text-color); /* NEW - Softer gray for designation */
     display: block;
 }
 
 .slider-nav-controls {
     display: flex;
     flex-direction: column;
-    align-items: center; 
+    align-items: center;
     margin-top: 25px;
 }
 
 .slider-nav-arrows {
     display: flex;
     justify-content: center;
-    gap: 25px;             
-    margin-bottom: 20px;  
-    width: auto;          
+    gap: 25px;
+    margin-bottom: 20px;
+    width: auto;
 }
 
 .slider-arrow {
-    background-color: #6c757d;
-    color: white;
-    border: none;
+    background-color: #fff; /* White background for arrows */
+    color: var(--secondary-color); /* Dark arrow character */
+    border: 1px solid #e0e0e0; /* Subtle border */
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -409,29 +617,34 @@ main { padding-top: 80px; }
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 .slider-arrow:hover {
-    background-color: #5a6268;
+    background-color: var(--primary-color); /* NEW - Blue/Purple on hover */
+    color: #fff;
+    border-color: var(--primary-color);
     transform: scale(1.1);
 }
 .slider-arrow:disabled {
-    background-color: #adb5bd;
+    background-color: #e9ecef;
+    color: #adb5bd;
     cursor: not-allowed;
+    transform: scale(1);
+    border-color: #e9ecef;
 }
 
 .slider-nav-dots {
     text-align: center;
 }
 
-.slider-nav-dots .dot { 
+.slider-nav-dots .dot {
     display: inline-block;
-    width: 11px;
-    height: 11px;
-    background-color: #cccccc;
+    width: 10px; /* Slightly smaller dots */
+    height: 10px;
+    background-color: #d1d1d1; /* Inactive dot color */
     border-radius: 50%;
-    margin: 0 6px;
+    margin: 0 5px;
     cursor: pointer;
     border: none;
     padding: 0;
@@ -439,60 +652,30 @@ main { padding-top: 80px; }
 }
 
 .slider-nav-dots .dot.active-dot {
-    background-color: #e74c3c;
-    transform: scale(1.2);
+    background-color: var(--primary-color); /* NEW - Blue/Purple for active dot */
+    transform: scale(1.3);
 }
-
-
-/* Responsive Adjustments for Testimonials */
-@media (max-width: 768px) {
-    .testimonials-section {
-        padding: 50px 15px;
-    }
-    .section-title-testimonials h2 {
-        font-size: 2em;
-    }
-    .testimonial-slider-wrapper {
-        max-width: 100%; /* Allow full width on smaller screens */
-    }
-    .testimonial-card {
-        padding: 25px 20px; /* Adjust padding */
-        min-height: 240px; /* May need to adjust based on content */
-    }
-    .testimonial-quote {
-        font-size: 0.95em;
-    }
-}
-
-@media (max-width: 480px) {
-    .testimonial-card {
-        min-height: auto; /* Let content define height on very small screens, or set a larger min-height */
-        padding: 20px 15px;
-    }
-    .rating-stars .star {
-        font-size: 1.1em;
-    }
-}
-
-/* styles.css - Testimonial Section Styles END */
-
-/* =================================== */
 /*  CONTACT SECTION STYLES             */
-/* =================================== */
+/* styles.css */
+
+/* --- CONTACT SECTION & FOOTER STYLES (Only Colors Changed, Layout and Sizes are from your code) --- */
+
+/* Contact Section Main Container */
 .contact-section {
-    padding: 70px 0; /* Vertical padding */
-    background-color: #ffffff; /* White background for this section */
+    padding: 70px 0; /* Your original padding */
+    background-color: #ffffff; /* Keeping the white background from your original code */
 }
 
+/* Contact Section Title Block */
 .section-title-contact {
     text-align: center;
-    margin-bottom: 45px; /* Space below title block */
+    margin-bottom: 45px; /* Your original margin */
 }
 
 .section-title-contact h2 { /* "Get in Touch" */
-    font-size: 2.5em; /* Adjust as needed */
-    color: #333;
-    margin-bottom: 10px;
+    font-size: 2.5em; /* Your original font size */
+    color: var(--secondary-color); /* NEW - Dark color for title */
+    margin-bottom: 10px; /* Your original margin */
     font-weight: 600;
     position: relative;
     display: inline-block;
@@ -505,107 +688,106 @@ main { padding-top: 80px; }
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
-    width: 70px;
-    height: 3.5px;
-    background-color: #e74c3c; /* Your theme's highlight color */
+    width: 70px; /* Your original width */
+    height: 3.5px; /* Your original height */
+    background-color: var(--primary-color); /* NEW - Blue/Purple for underline */
     border-radius: 2px;
 }
 
 .contact-section .contact-subtitle { /* "Let's create something..." */
-    font-size: 1.15em;
-    color: #555;
+    font-size: 1.15em; /* Your original font size */
+    color: var(--text-color); /* NEW - Softer gray for subtitle */
+    font-weight: normal;
     margin-top: 5px;
 }
 
+/* Wrapper for Details and Form columns */
 .contact-content-wrapper {
     display: flex;
-    flex-wrap: wrap; /* Allow columns to wrap on smaller screens */
-    gap: 40px; /* Space between the two columns */
-    align-items: flex-start; /* Align items to the top */
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: flex-start;
 }
 
+/* Left Column with Contact Details */
 .contact-details-column {
-    flex: 1; /* Takes available space */
-    min-width: 300px; /* Minimum width before wrapping */
-    /* background-color: #f9f9f9; */ /* Optional: subtle background for this column */
-    /* padding: 20px; */
-    /* border-radius: 8px; */
+    flex: 1;
+    min-width: 300px;
 }
 
 .contact-info-item {
     display: flex;
-    align-items: flex-start; /* Align icon and text to the top */
+    align-items: flex-start;
     margin-bottom: 30px;
 }
 
 .contact-info-item .contact-icon {
-    font-size: 1.8em; /* Icon size */
-    color: #e74c3c; /* Icon color */
+    font-size: 1.8em; /* Your original icon size */
+    color: var(--primary-color); /* NEW - Blue/Purple for icons */
     margin-right: 20px;
-    flex-shrink: 0; /* Prevent icon from shrinking */
-    width: 40px; /* Fixed width for icon container */
+    flex-shrink: 0;
+    width: 40px;
     text-align: center;
 }
-/* Specific icons if using font/SVG library, or style Unicode chars */
-/* .phone-icon::before { content: '\f095'; font-family: "Font Awesome 5 Free"; ... } */
-
 
 .contact-info-item .contact-text h4 {
-    font-size: 1.2em;
-    color: #333;
+    font-size: 1.2em; /* Your original font size */
+    color: var(--secondary-color); /* NEW - Dark color for heading */
     margin-bottom: 5px;
     font-weight: 600;
 }
 
 .contact-info-item .contact-text p {
     margin-bottom: 3px;
-    color: #555;
-    font-size: 1em;
-}
-.contact-info-item .contact-text small {
-    font-size: 0.85em;
-    color: #777;
+    color: var(--text-color); /* NEW - Softer gray for text */
+    font-size: 1em; /* Your original font size */
 }
 
+.contact-info-item .contact-text small {
+    font-size: 0.85em;
+    color: #777; /* Keeping your original color for small text */
+}
+
+/* "Connect with us" part */
 .connect-with-us {
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid #e0e0e0; /* Keeping your original border color */
 }
 .connect-with-us h4 {
     font-size: 1.2em;
-    color: #333;
+    color: var(--secondary-color); /* NEW - Dark color for heading */
     margin-bottom: 15px;
     font-weight: 600;
 }
+
 .social-icons {
     display: flex;
-    gap: 15px; /* Space between social icons */
+    gap: 15px;
 }
 .social-icons .social-icon {
-    font-size: 1.5em;
-    color: #555;
+    font-size: 1.5em; /* Your original icon size */
+    color: #555; /* Your original icon color */
     width: 40px;
     height: 40px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #ddd;
+    border: 1px solid #ddd; /* Your original border color */
     border-radius: 50%;
     transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 .social-icons .social-icon:hover {
     color: #fff;
-    border-color: #e74c3c;
-    background-color: #e74c3c;
+    border-color: var(--primary-color);
+    background-color: var(--primary-color); /* NEW - Blue/Purple for hover background */
 }
-.social-icons .social-icon.fb { /* font-family: your-social-font; content: '\f09a'; */ }
 
-
+/* Right Column with the Contact Form */
 .contact-form-column {
-    flex: 1.5; /* Form column takes slightly more space */
+    flex: 1.5;
     min-width: 320px;
-    background-color: #fdfdfd; /* Slightly off-white background for form */
+    background-color: #fdfdfd; /* Keeping your original form background */
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
@@ -618,7 +800,7 @@ main { padding-top: 80px; }
 .contact-form label {
     display: block;
     font-size: 0.9em;
-    color: #444;
+    color: #444; /* Your original label color */
     margin-bottom: 6px;
     font-weight: 500;
 }
@@ -631,15 +813,15 @@ main { padding-top: 80px; }
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1em;
-    color: #333;
-    transition: border-color 0.3s ease;
+    color: #333; /* Your original input text color */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
 }
 .contact-form input[type="text"]:focus,
 .contact-form input[type="email"]:focus,
 .contact-form textarea:focus {
-    border-color: #e74c3c;
+    border-color: var(--primary-color); /* NEW - Blue/Purple for focus border */
     outline: none;
-    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+    box-shadow: 0 0 0 3px rgba(119, 111, 250, 0.2); /* Shadow with new primary color */
 }
 
 .contact-form textarea {
@@ -647,8 +829,9 @@ main { padding-top: 80px; }
     min-height: 120px;
 }
 
+/* "Send Message" Button */
 .btn-send-message {
-    background-color: #e74c3c;
+    background-color: var(--primary-color); /* NEW - Blue/Purple for send button */
     color: white;
     padding: 12px 28px;
     border: none;
@@ -659,11 +842,13 @@ main { padding-top: 80px; }
     transition: background-color 0.3s ease, transform 0.2s ease;
     width: 100%;
 }
-.btn-send-message:hover {
-    background-color: #c0392b;
+/* Try this to increase specificity */
+.contact-form .btn-send-message:hover {
+    background-color: var(--primary-darker); /* NEW - Darker shade on hover */
     transform: translateY(-1px);
 }
 
+/* Status message for the form (no color changes needed, they are standard) */
 #form-status-message {
     font-size: 0.95em;
     padding: 10px;
@@ -674,53 +859,115 @@ main { padding-top: 80px; }
 #form-status-message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 
 
-footer { background-color: #2c2c2c; color: #ecf0f1; text-align: center; padding: 30px 20px; margin-top: 40px; }
-footer p { margin: 0; font-size: 0.9em; }
-
-
-@media (max-width: 768px) {
-    .portfolio-grid {
-        gap: 10px;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    }
+/* --- FOOTER STYLES (with NEW Colors applied) --- */
+footer {
+    background-color: var(--secondary-color); /* NEW - Use dark slate blue for footer */
+    color: #ecf0f1; /* Keeping your original light text color */
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 40px; /* Your original margin-top */
+}
+footer p {
+    margin: 0;
+    font-size: 0.9em;
 }
 
-@media (max-width: 480px) { /* Small Mobile screens */
-    /* ... (other small mobile styles) ... */
-    .portfolio-grid {
-        grid-template-columns: 1fr; /* Single column */
-        gap: 15px; /* Can have a slightly larger gap for single column if preferred */
-    }
-    /* ... */
-}
-/* Responsive Adjustments (Minor adjustments to portfolio item heights) */
-@media (max-width: 992px) { header { padding: 15px 3%; } .hero { flex-direction: column; text-align: center; padding: 40px 3%; } .hero-text { flex-basis: 100%; margin-bottom: 40px; } .hero-gallery { flex-basis: 100%; height: 400px; max-width: 500px; } #slot1 { width: 60%; height: 70%; } #slot2 { width: 38%; height: 48%; top: 35%; } #slot3 { width: 33%; height: 43%; top: 55%; } #slot4 { width: 28%; height: 33%; top: 15%; } .about-content { flex-direction: column; gap: 40px; padding: 60px 3%; } .about-image-slideshow { order: -1; margin-bottom: 30px; max-width: 400px; height: 350px; }
+
+/* =================================================================== */
+/* 8. LIGHTBOX & RESPONSIVE & KEYFRAMES                                */
+/* =================================================================== */
+
+/* Lightbox Styles (These should be fine across all devices, but we can tweak if needed) */
+#lightbox { position: fixed; z-index: 1002; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.92); display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
+#lightbox.lightbox-visible { opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0s linear 0s; }
+.lightbox-hidden { display: none !important; }
+.lightbox-content { margin: auto; display: block; max-width: 85%; max-height: 75vh; border-radius: 5px; animation: lightboxZoom 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+#lightbox-caption { margin: 15px auto; display: block; width: 80%; max-width: 700px; text-align: center; color: #ccc; padding: 10px 0; font-size: 1.1em; line-height: 1.5; }
+.lightbox-close-btn { position: absolute; top: 20px; right: 35px; color: #f1f1f1; font-size: 45px; font-weight: bold; transition: 0.3s; cursor: pointer; line-height: 1; }
+.lightbox-close-btn:hover, .lightbox-close-btn:focus { color: #bbb; }
+.lightbox-prev, .lightbox-next { cursor: pointer; position: absolute; top: 50%; width: auto; padding: 18px; margin-top: -30px; color: white; font-weight: bold; font-size: 24px; transition: 0.5s ease; border-radius: 3px; user-select: none; background-color: rgba(50,50,50,0.4); }
+.lightbox-next { right: 15px; }
+.lightbox-prev { left: 15px; }
+.lightbox-prev:hover, .lightbox-next:hover { background-color: rgba(255,255,255,0.25); }
+
+
+/* =================================================================== */
+/* RESPONSIVE DESIGN (Media Queries)                                   */
+/* =================================================================== */
+
+/* Medium Devices (Tablets, landscape phones) - less than 992px */
+@media (max-width: 992px) {
+    .header { padding: 15px 5%; }
+    .navbar a { margin-left: 20px; font-size: 0.95rem; }
+    .logo { font-size: 1.6em; }
+
+    .home { min-height: auto; padding: 120px 5% 60px; }
+    .home-container { flex-direction: column-reverse; text-align: center; }
+    .home-content { max-width: 100%; margin-top: 40px; }
+    .home-content h1 { font-size: 3rem; }
+    .home-gallery { flex-basis: auto; width: 80%; max-width: 500px; height: 450px; }
+
+    .about { padding: 60px 5%; }
+    .about-content { flex-direction: column; gap: 40px; }
+    .about-text { flex-basis: 100%; text-align: center; }
+    .about-text h2::after { left: 50%; transform: translateX(-50%); }
+    .about-text h3 { padding-left: 0; border-left: none; text-align: center; }
+    .stats-container { justify-content: center; }
+    .about-image-slideshow { order: -1; margin-bottom: 30px; max-width: 400px; height: 350px; }
+
     .portfolio-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
-    .portfolio-item { min-height: 210px; /* Adjusted */ }
-}
-@media (max-width: 768px) { header { flex-direction: column; padding: 10px 3%; } header nav ul { margin-top: 10px; justify-content: center; flex-wrap: wrap; } header nav ul li { margin: 5px 10px; } .hero-text h1 { font-size: 2.5em; } .hero-gallery { height: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; position: static; } .photo-slot { position: static; width: 100% !important; height: 180px !important; transform: none !important; } .about-content { padding: 40px 3%; } .about-text h2 {font-size: 2.2em;} .about-image-slideshow { width: 90%; max-width: 300px; height: 320px; } .portfolio-main-section { padding: 40px 0; } .portfolio-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; } .portfolio-filters a { margin: 0 6px; font-size: 0.9em; }
-    .portfolio-item { min-height: 200px; /* Consistent */ }
-    .lightbox-content { max-width: 90%; max-height: 70vh; }
-}
-@media (max-width: 480px) { .hero-text h1 { font-size: 2em; } .hero-gallery { grid-template-columns: 1fr; } .photo-slot { height: 200px !important; } .portfolio-grid { grid-template-columns: 1fr; }
-    .portfolio-item { min-height: 220px; /* Adjusted for single column, can be taller */ }
-}
-/* Responsive adjustments for Contact Section */
-@media (max-width: 768px) {
-    .contact-content-wrapper {
-        flex-direction: column; /* Stack columns on mobile */
-        gap: 30px;
-    }
-    .contact-details-column,
-    .contact-form-column {
-        flex-basis: 100%; /* Full width for columns */
-    }
-    .section-title-contact h2 { font-size: 2em; }
-    .contact-section .contact-subtitle { font-size: 1em; }
-    .contact-form-column { padding: 20px; }
+    .portfolio-item { /* No change needed if using aspect-ratio */ }
 }
 
-/* Keyframe Animations */
+
+/* Small Devices (Portrait tablets, large phones) - less than 768px */
+@media (max-width: 768px) {
+    main { padding-top: 70px; } /* Adjust for smaller header */
+    .header { flex-direction: column; padding: 10px 5%; }
+    .navbar { margin-top: 10px; flex-wrap: wrap; justify-content: center; }
+    .navbar a { margin: 5px 10px; }
+
+    .home-text h1, .home-content h1 { font-size: 2.5em; }
+    .home-gallery { height: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; position: static; }
+    .photo-slot { position: static; width: 100% !important; height: 180px !important; transform: none !important; }
+
+    .about-text h2 {font-size: 2.2em;}
+    .about-image-slideshow { width: 90%; max-width: 300px; height: 320px; }
+
+    .portfolio-main-section { padding: 50px 0; }
+    .portfolio-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } /* Force 2 columns */
+    .portfolio-filters a { margin: 0 8px; font-size: 0.9em; }
+
+    .testimonials-section { padding: 50px 15px; }
+    .section-title-testimonials h2 { font-size: 2em; }
+    .testimonial-card { padding: 25px 20px; min-height: 240px; }
+    .testimonial-quote { font-size: 0.95em; }
+
+    .contact-content-wrapper { flex-direction: column; gap: 30px; }
+    .contact-details-column, .contact-form-column { flex-basis: 100%; }
+    .section-title-contact h2 { font-size: 2em; }
+
+    .lightbox-content { max-width: 90%; max-height: 80vh; }
+}
+
+
+/* Extra Small Devices (Phones) - less than 576px */
+@media (max-width: 576px) {
+    .home-text h1, .home-content h1 { font-size: 2.2rem; }
+    .home-text p { font-size: 1rem; }
+    .home-gallery { grid-template-columns: 1fr; }
+    .photo-slot { height: 200px !important; }
+
+    .portfolio-grid { grid-template-columns: 1fr; } /* Single column for portfolio on small phones */
+
+    .testimonial-card { min-height: auto; } /* Let content define height */
+}
+
+
+/* =================================================================== */
+/* KEYFRAME ANIMATIONS (Keep these at the end)                         */
+/* =================================================================== */
 @keyframes slideInFromLeft { 0% { transform: translateX(-100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
 @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
 @keyframes zoomIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes lightboxZoom { from {transform: scale(0.8); opacity: 0;} to {transform: scale(1); opacity: 1;} }

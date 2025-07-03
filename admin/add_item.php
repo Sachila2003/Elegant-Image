@@ -8,6 +8,11 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     header('Location: login.php'); // Redirect to login page
     exit();
 }
+require_once '../connection.php'; // Database connection
+
+// Define available categories
+$categories_available = ['wedding', 'portrait', 'pre-shoot', 'baby',  'fashion'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,8 +21,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Add Portfolio Item</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; /* display: flex; justify-content: center; align-items: center; min-height: 100vh; */ padding-top: 20px; padding-bottom: 20px; }
-        .admin-container { background-color: #fff; padding: 25px 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 700px; margin: 20px auto; /* Centering the container */ }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; padding-top: 20px; padding-bottom: 20px; }
+        .admin-container { background-color: #fff; padding: 25px 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 700px; margin: 0 auto; /* Removed top margin, handled by body padding or header */ }
         .admin-container h2 { text-align: center; color: #333; margin-top: 0; margin-bottom: 20px; }
         label { display: block; margin-top: 15px; margin-bottom: 5px; color: #555; font-weight: bold; }
         input[type="text"], input[type="file"], select, textarea { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
@@ -28,39 +33,49 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         input[type="submit"]:hover { background-color: #4cae4c; }
         .showcase-options { border: 1px dashed #ccc; padding: 15px; margin-top: 15px; border-radius: 4px; background-color: #f9f9f9; display: none; }
         .showcase-options small { display: block; margin-top: 8px; color: #777; }
-        .message { padding: 12px; margin-bottom: 20px; border-radius: 4px; font-size: 0.95em; }
-        .success { background-color: #dff0d8; color: #3c763d; border: 1px solid #d6e6c6; }
-        .error { background-color: #f2dede; color: #a94442; border: 1px solid #ebccd1; }
+        .message { padding: 12px; margin-bottom: 20px; border-radius: 4px; font-size: 0.95em; border-width:1px; border-style:solid;}
+        .success { background-color: #dff0d8; color: #3c763d; border-color: #d6e6c6; }
+        .error { background-color: #f2dede; color: #a94442; border-color: #ebccd1; }
         hr { border: 0; border-top: 1px solid #eee; margin: 25px 0; }
-        .navigation-buttons { margin-top: 20px; text-align: center; }
-        .back-to-home-btn { display: inline-block; padding: 10px 18px; background-color: #007bff; color: white !important; text-decoration: none; border-radius: 4px; font-size: 0.9em; transition: background-color 0.3s ease; }
-        .back-to-home-btn:hover { background-color: #0056b3; }
+        /* .navigation-buttons and .back-to-home-btn styles are now in header_admin.php or a common admin.css */
     </style>
 </head>
 <body>
-    <?php include_once 'templates/header_admin.php'; // INCLUDE THE ADMIN NAVIGATION BAR ?>
+    <?php
+    // Ensure header_admin.php exists in admin/templates/ or adjust path
+    if (file_exists('templates/header_admin.php')) {
+        include_once 'templates/header_admin.php';
+    } else {
+        echo '<p style="text-align:center;color:red;">Admin navigation not found.</p>';
+    }
+    ?>
 
-    <div class="admin-container"> <!-- Changed class to admin-container for clarity -->
+    <div class="admin-container">
         <h2>Add New Portfolio Item</h2>
 
         <?php
-        if (isset($_GET['status'])) {
-            $message = '';
-            $msg_text = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : '';
-            // $show_back_button_with_message = false; // This button is now part of header_admin.php
-
-            if ($_GET['status'] == 'success') {
-                $message = '<p class="message success">Item added successfully!</p>';
-            } elseif ($_GET['status'] == 'error') {
-                $message = '<p class="message error">Error adding item: ' . $msg_text . '</p>';
-            } elseif ($_GET['status'] == 'upload_error') {
-                $message = '<p class="message error">File upload error: ' . $msg_text . '</p>';
-            }
-            echo $message;
-
-            // The "Back to Home/Portfolio" button is now part of the admin navigation in header_admin.php
-            // So, we don't need to echo it here based on status.
+        if (isset($_SESSION['form_message'])) { // Using session for messages
+            echo '<div class="message ' . htmlspecialchars($_SESSION['form_message']['type']) . '">' . htmlspecialchars($_SESSION['form_message']['text']) . '</div>';
+            unset($_SESSION['form_message']); // Clear message after displaying
         }
+        // Fallback for GET status messages if you still use them sometimes (though session is better)
+        if (isset($_GET['status']) && !isset($_SESSION['form_message_shown_via_get'])) {
+             $message_get = '';
+             $msg_text_get = isset($_GET['msg']) ? htmlspecialchars($_GET['msg']) : '';
+             if ($_GET['status'] == 'success') {
+                 $message_get = '<p class="message success">Item added successfully!</p>';
+             } elseif ($_GET['status'] == 'error') {
+                 $message_get = '<p class="message error">Error adding item: ' . $msg_text_get . '</p>';
+             } elseif ($_GET['status'] == 'upload_error') {
+                 $message_get = '<p class="message error">File upload error: ' . $msg_text_get . '</p>';
+             }
+             echo $message_get;
+             $_SESSION['form_message_shown_via_get'] = true; // Prevent re-display on refresh if kept in URL
+        } else {
+            unset($_SESSION['form_message_shown_via_get']);
+        }
+
+
         ?>
 
         <form action="process_add_item.php" method="post" enctype="multipart/form-data">
@@ -68,11 +83,17 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             <input type="text" id="title" name="title" required>
 
             <label for="category">Category:</label>
-            <select id="category" name="category" required>
+            <select id="category" name="category" required> <!-- Added required back -->
                 <option value="">-- Select Category --</option>
-                <?php foreach ($categories_available as $cat): ?>
-                    <option value="<?php echo htmlspecialchars($cat); ?>"><?php echo ucfirst(str_replace('-', ' ', htmlspecialchars($cat))); ?></option>
-                <?php endforeach; ?>
+                <?php
+                if (!empty($categories_available)) { // Check if array is not empty
+                    foreach ($categories_available as $cat):
+                        echo '<option value="' . htmlspecialchars($cat) . '">' . ucfirst(str_replace('-', ' ', htmlspecialchars($cat))) . '</option>';
+                    endforeach;
+                } else {
+                    echo '<option value="" disabled>No categories defined</option>';
+                }
+                ?>
             </select>
 
             <label for="description">Description (Optional, for lightbox):</label>
@@ -111,16 +132,20 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             var checkbox = document.getElementById('is_category_showcase');
             var optionsDiv = document.getElementById('showcase_options_div');
             var subtitleInput = document.getElementById('showcase_subtitle');
-            if (checkbox.checked) {
-                optionsDiv.style.display = 'block';
-                subtitleInput.required = true;
-            } else {
-                optionsDiv.style.display = 'none';
-                subtitleInput.required = false;
+            // Ensure elements exist before trying to access their properties
+            if (checkbox && optionsDiv && subtitleInput) {
+                if (checkbox.checked) {
+                    optionsDiv.style.display = 'block';
+                    subtitleInput.required = true;
+                } else {
+                    optionsDiv.style.display = 'none';
+                    subtitleInput.required = false;
+                }
             }
         }
         document.addEventListener('DOMContentLoaded', function() {
             toggleShowcaseOptions();
+            // Any other JS specific to this admin page can go here
         });
     </script>
 </body>

@@ -59,12 +59,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (heroImageSlots.length > 0 && heroImageUrls.length > 0) {
         heroImageSlots.forEach((slot, index) => {
-            if(slot) updateHeroImage(slot, index);
+            if (slot) updateHeroImage(slot, index);
         });
         setInterval(() => {
             if (heroImageSlots.length > 0) {
                 const randomSlotIndex = Math.floor(Math.random() * heroImageSlots.length);
-                if(heroImageSlots[randomSlotIndex]) updateHeroImage(heroImageSlots[randomSlotIndex], randomSlotIndex);
+                if (heroImageSlots[randomSlotIndex]) updateHeroImage(heroImageSlots[randomSlotIndex], randomSlotIndex);
             }
         }, 5000);
     }
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         function handleGlobalImageClickForLightbox(e) {
-            updateGlobalLightboxTriggerImages(); 
+            updateGlobalLightboxTriggerImages();
             openGlobalLightbox(e.currentTarget);
         }
 
@@ -194,119 +194,104 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         } else {
-            
+
         }
-    } 
-
-// ===================================
-//  TESTIMONIAL SLIDER (REFINED)
-// ===================================
-// script.js - Ensure this is within your main DOMContentLoaded listener
-
-// ===================================
-//  TESTIMONIAL SLIDER SCRIPT
-// ===================================
-const testimonialSliderWrapperGlobal = document.querySelector('.testimonial-slider-wrapper');
-
-if (testimonialSliderWrapperGlobal) {
-    const sliderContainerGlobal = testimonialSliderWrapperGlobal.querySelector('.testimonial-slider-container');
-    const sliderTrackGlobal = sliderContainerGlobal ? sliderContainerGlobal.querySelector('.testimonial-slider') : null;
-    const slidesGlobal = sliderTrackGlobal ? Array.from(sliderTrackGlobal.querySelectorAll('.testimonial-slide')) : [];
-
-    const navControlsGlobal = testimonialSliderWrapperGlobal.querySelector('.slider-nav-controls');
-    const prevButtonGlobal = navControlsGlobal ? navControlsGlobal.querySelector('.prev-arrow') : null;
-    const nextButtonGlobal = navControlsGlobal ? navControlsGlobal.querySelector('.next-arrow') : null;
-    const dotsContainerGlobal = navControlsGlobal ? navControlsGlobal.querySelector('.slider-nav-dots') : null;
-
-    let currentTestimonialIndex = 0;
-    const totalTestimonialSlides = slidesGlobal.length;
-
-    function updateTestimonialSliderPosition() {
-        if (sliderTrackGlobal) {
-            sliderTrackGlobal.style.transform = `translateX(-${currentTestimonialIndex * 100}%)`;
-        }
-        updateTestimonialDots();
-        updateArrowStates(); // Function to disable/enable arrows
     }
+    //  TESTIMONIAL SLIDER SCRIPT
+    const testimonialSliderWrapperGlobal = document.querySelector('.testimonial-slider-wrapper');
 
-    function updateTestimonialDots() {
-        if (!dotsContainerGlobal || totalTestimonialSlides <= 1) return;
-        const dots = dotsContainerGlobal.querySelectorAll('.dot');
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active-dot', index === currentTestimonialIndex);
-        });
-    }
+    if (testimonialSliderWrapperGlobal) {
+        const sliderContainerGlobal = testimonialSliderWrapperGlobal.querySelector('.testimonial-slider-container');
+        const sliderTrackGlobal = sliderContainerGlobal ? sliderContainerGlobal.querySelector('.testimonial-slider') : null;
+        const slidesGlobal = sliderTrackGlobal ? Array.from(sliderTrackGlobal.querySelectorAll('.testimonial-slide')) : [];
 
-    function createTestimonialDots() {
-        if (!dotsContainerGlobal || totalTestimonialSlides <= 1) {
-            if (navControlsGlobal) navControlsGlobal.style.display = 'none';
-            return;
+        const navControlsGlobal = testimonialSliderWrapperGlobal.querySelector('.slider-nav-controls');
+        const prevButtonGlobal = navControlsGlobal ? navControlsGlobal.querySelector('.prev-arrow') : null;
+        const nextButtonGlobal = navControlsGlobal ? navControlsGlobal.querySelector('.next-arrow') : null;
+        const dotsContainerGlobal = navControlsGlobal ? navControlsGlobal.querySelector('.slider-nav-dots') : null;
+
+        let currentTestimonialIndex = 0;
+        const totalTestimonialSlides = slidesGlobal.length;
+
+        function updateTestimonialSliderPosition() {
+            if (sliderTrackGlobal) {
+                sliderTrackGlobal.style.transform = `translateX(-${currentTestimonialIndex * 100}%)`;
+            }
+            updateTestimonialDots();
+            updateArrowStates();
         }
-        if (navControlsGlobal) navControlsGlobal.style.display = 'flex'; // Or 'block'
 
-        dotsContainerGlobal.innerHTML = '';
-        for (let i = 0; i < totalTestimonialSlides; i++) {
-            const dotButton = document.createElement('button'); // Use button for accessibility
-            dotButton.classList.add('dot');
-            dotButton.setAttribute('type', 'button');
-            dotButton.setAttribute('aria-label', `Go to testimonial ${i + 1}`);
-            dotButton.addEventListener('click', () => {
-                currentTestimonialIndex = i;
-                updateTestimonialSliderPosition();
+        function updateTestimonialDots() {
+            if (!dotsContainerGlobal || totalTestimonialSlides <= 1) return;
+            const dots = dotsContainerGlobal.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active-dot', index === currentTestimonialIndex);
             });
-            dotsContainerGlobal.appendChild(dotButton);
-        }
-    }
-
-    function updateArrowStates() { // Optional: Disable arrows at ends if not looping
-        if (!prevButtonGlobal || !nextButtonGlobal || totalTestimonialSlides <= 1) return;
-        // If you don't want looping, disable buttons:
-        // prevButtonGlobal.disabled = currentTestimonialIndex === 0;
-        // nextButtonGlobal.disabled = currentTestimonialIndex === totalTestimonialSlides - 1;
-    }
-
-    function showNextTestimonialSlide() {
-        currentTestimonialIndex = (currentTestimonialIndex + 1) % totalTestimonialSlides; // Loops
-        updateTestimonialSliderPosition();
-    }
-
-    function showPrevTestimonialSlide() {
-        currentTestimonialIndex = (currentTestimonialIndex - 1 + totalTestimonialSlides) % totalTestimonialSlides; // Loops
-        updateTestimonialSliderPosition();
-    }
-
-    // Initialization
-    if (sliderTrackGlobal && totalTestimonialSlides > 0) {
-        createTestimonialDots();
-        updateTestimonialSliderPosition(); // Set initial position and dots
-
-        if (nextButtonGlobal) {
-            nextButtonGlobal.addEventListener('click', showNextTestimonialSlide);
-        }
-        if (prevButtonGlobal) {
-            prevButtonGlobal.addEventListener('click', showPrevTestimonialSlide);
         }
 
-        // Optional: Auto-slide
-        // let autoSlideInterval = setInterval(showNextTestimonialSlide, 7000); // Change every 7 seconds
-        // testimonialSliderWrapperGlobal.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
-        // testimonialSliderWrapperGlobal.addEventListener('mouseleave', () => autoSlideInterval = setInterval(showNextTestimonialSlide, 7000));
+        function createTestimonialDots() {
+            if (!dotsContainerGlobal || totalTestimonialSlides <= 1) {
+                if (navControlsGlobal) navControlsGlobal.style.display = 'none';
+                return;
+            }
+            if (navControlsGlobal) navControlsGlobal.style.display = 'flex'; // Or 'block'
 
-    } else if (testimonialSliderWrapperGlobal) {
-        if (navControlsGlobal) navControlsGlobal.style.display = 'none';
-        // console.log("Testimonial slider found, but no slides or track.");
+            dotsContainerGlobal.innerHTML = '';
+            for (let i = 0; i < totalTestimonialSlides; i++) {
+                const dotButton = document.createElement('button'); // Use button for accessibility
+                dotButton.classList.add('dot');
+                dotButton.setAttribute('type', 'button');
+                dotButton.setAttribute('aria-label', `Go to testimonial ${i + 1}`);
+                dotButton.addEventListener('click', () => {
+                    currentTestimonialIndex = i;
+                    updateTestimonialSliderPosition();
+                });
+                dotsContainerGlobal.appendChild(dotButton);
+            }
+        }
+
+        function updateArrowStates() { // Optional: Disable arrows at ends if not looping
+            if (!prevButtonGlobal || !nextButtonGlobal || totalTestimonialSlides <= 1) return;
+            // If you don't want looping, disable buttons:
+            // prevButtonGlobal.disabled = currentTestimonialIndex === 0;
+            // nextButtonGlobal.disabled = currentTestimonialIndex === totalTestimonialSlides - 1;
+        }
+
+        function showNextTestimonialSlide() {
+            currentTestimonialIndex = (currentTestimonialIndex + 1) % totalTestimonialSlides; // Loops
+            updateTestimonialSliderPosition();
+        }
+
+        function showPrevTestimonialSlide() {
+            currentTestimonialIndex = (currentTestimonialIndex - 1 + totalTestimonialSlides) % totalTestimonialSlides; // Loops
+            updateTestimonialSliderPosition();
+        }
+
+        // Initialization
+        if (sliderTrackGlobal && totalTestimonialSlides > 0) {
+            createTestimonialDots();
+            updateTestimonialSliderPosition(); // Set initial position and dots
+
+            if (nextButtonGlobal) {
+                nextButtonGlobal.addEventListener('click', showNextTestimonialSlide);
+            }
+            if (prevButtonGlobal) {
+                prevButtonGlobal.addEventListener('click', showPrevTestimonialSlide);
+            }
+
+            // Optional: Auto-slide
+            // let autoSlideInterval = setInterval(showNextTestimonialSlide, 7000); // Change every 7 seconds
+            // testimonialSliderWrapperGlobal.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+            // testimonialSliderWrapperGlobal.addEventListener('mouseleave', () => autoSlideInterval = setInterval(showNextTestimonialSlide, 7000));
+
+        } else if (testimonialSliderWrapperGlobal) {
+            if (navControlsGlobal) navControlsGlobal.style.display = 'none';
+        }
+    } else {
+        // console.log("Testimonial slider wrapper not found.");
     }
-} else {
-    // console.log("Testimonial slider wrapper not found.");
-}
-// ===================================
-//  TESTIMONIAL SLIDER SCRIPT END
-// ===================================
 
-
-    // ===================================
     //  SMOOTH SCROLL FOR NAV LINKS
-    // ===================================
     document.querySelectorAll('header nav ul li a[href^="#"], a.cta-button[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
@@ -322,4 +307,52 @@ if (testimonialSliderWrapperGlobal) {
         });
     });
 
-}); // End DOMContentLoaded
+    // whatsapp contact from script
+    const sendWhatsappBtn = document.getElementById('send-whatsapp-btn');
+    if (sendWhatsappBtn) {
+        const inputName = document.getElementById('whatsapp_name');
+        const inputSubject = document.getElementById('whatsapp_subject');
+        const inputMessage = document.getElementById('whatsapp_message');
+        const formStatusMsg = document.getElementById('form-status-message');
+
+        sendWhatsappBtn.addEventListener('click', function (event) {
+            event.preventDefault();
+            const yourWhatsAppNumber = '94724178024';
+            const name = inputName ? inputName.value.trim() : '';
+            const subject = inputSubject ? inputSubject.value.trim() : '';
+            const message = inputMessage ? inputMessage.value.trim() : '';
+
+            // --- Validation ---
+            if (name === '' || subject === '' || message === '') {
+                if (formStatusMsg) {
+                    formStatusMsg.className = 'error';
+                    formStatusMsg.innerHTML = 'Please fill out all fields before sending.';
+                }
+                return;
+            } else {
+                if (formStatusMsg) {
+                    formStatusMsg.innerHTML = '';
+                    formStatusMsg.className = '';
+                }
+            }
+
+            let preFilledMessage =
+                `Hello Elegant Image,\n\n` +
+                `*Name:* ${name}\n` +
+                `*Subject:* ${subject}\n\n` +
+                `*Message:*\n${message}\n\n` +
+                `---\nSent from your website contact form.`;
+
+            let encodedMessage = encodeURIComponent(preFilledMessage);
+
+            const whatsappUrl = `https://wa.me/${yourWhatsAppNumber}?text=${encodedMessage}`;
+
+            window.open(whatsappUrl, '_blank');
+
+            if (formStatusMsg) {
+                formStatusMsg.className = 'success';
+                formStatusMsg.innerHTML = 'WhatsApp is opening... Please send your message there.';
+            }
+        });
+    }
+});
