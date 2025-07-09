@@ -17,7 +17,12 @@ document.addEventListener('DOMContentLoaded', function () {
         'images/img13.jpg', 'images/img14.jpg', 'images/img15.jpg', 'images/img16.jpg',
         'images/img17.jpg', 'images/img18.jpg', 'images/img19.jpg', 'images/img20.jpg',
         'images/img21.jpg', 'images/img22.jpg', 'images/img23.jpg', 'images/img24.jpg',
-        'images/img25.jpg', 'images/img26.jpg', 'images/img27.jpg'
+        'images/img25.jpg', 'images/img26.jpg', 'images/img27.jpg', 'images/img28.jpg',
+        'images/img29.jpg', 'images/img31.jpg', 'images/img32.jpg',
+        'images/img33.jpg', 'images/img34.jpg', 'images/img35.jpg', 'images/img36.jpg',
+        'images/img37.jpg', 'images/img38.jpg', 'images/img39.jpg', 'images/img40.jpg',
+        'images/img41.jpg', 'images/img42.jpg', 'images/img43.jpg', 'images/img44.jpg',
+        'images/img45.jpg', 'images/img46.jpg', 'images/img47.jpg'
     ];
     let heroCurrentlyDisplayed = new Array(heroImageSlots.length).fill(null);
 
@@ -69,12 +74,42 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 5000);
     }
 
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const html = document.documentElement;
+    
+    // Page ek load weddi save krpu theme ek gnnw
+    const savedTheme = localStorage.getItem('theme') || 
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    
+    html.setAttribute('data-bs-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+    
+    themeToggle.addEventListener('click', () => {
+        //dant thiyen theme eka html eken gnnw
+        const currentTheme = html.getAttribute('data-bs-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        html.setAttribute('data-bs-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    });
+    
+    function updateThemeIcon(theme) {
+        if (theme === 'light') {
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        } else { // dark
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');    
+        }
+    }
     // ===================================
     //  ABOUT US IMAGE SLIDESHOW
     // ===================================
     const aboutSlideshowImageElement = document.getElementById('about-slideshow-image');
     const aboutImageUrls = [
-        'Images/about1.jpg', 'Images/about2.jpg', 'Images/about3.jpg'
+        'Images/about.jpg'
     ];
     const validAboutImageUrls = aboutImageUrls.filter(src => src && src.trim() !== "");
 

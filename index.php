@@ -18,7 +18,7 @@ error_reporting(E_ALL);
     <!-- index.php - UPDATED Header -->
     <header class="header">
         <a href="#home" class="logo">
-            <img src="images/logo.jpg" alt="Elegant Image Logo">
+            <!-- <img src="images/logo.jpg" alt="Elegant Image Logo"> -->
             <span>Elegant Image</span>
         </a>
         <nav class="navbar">
@@ -30,17 +30,24 @@ error_reporting(E_ALL);
             <a href="#contact-section">Contact</a>
         </nav>
         <!-- Admin Icon Link - MOVED OUTSIDE the navbar links group -->
-        <a href="admin/login.php" class="admin-nav-icon" title="Admin Panel">
-            <i class="fa-solid fa-gear"></i>
-        </a>
+        <div class="header-action-group">
+            <a href="admin/login.php" class="header-icon-btn admin-nav-icon" title="Admin Panel">
+                <i class="fa-solid fa-gear"></i>
+            </a>
+            <button class="header-icon-btn theme-toggle" id="themeToggle" title="Toggle Theme">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+
+        </div>
     </header>
 
     <main>
         <section class="hero" id="home">
             <div class="hero-text">
                 <h1>I'm here to <span class="highlight">capture</span> your moments.</h1>
-                <p>I would like to give you a unique photography experience & capture your special moments for you.</p>
-                <a href="#portfolio-section" class="cta-button">See My Works</a>
+                <p>More than just photos, I capture the feeling—the joy, the love, and the laughter. Let me help you
+                    tell your beautiful story.</p>
+                <a href="#portfolio-section" class="cta-button">Explore The Gallery</a>
             </div>
             <div class="hero-gallery">
                 <div class="photo-slot" id="slot1"><img src="placeholder1.jpg" alt="Photography example 1"></div>
@@ -56,25 +63,38 @@ error_reporting(E_ALL);
                     <h2>About Us</h2>
                     <h3>Capturing Life's Beautiful Moments</h3>
                     <p>
-                        With over a decade of experience in photography, we specialize in
-                        turning ordinary moments into extraordinary memories. Our passion
-                        lies in storytelling through images, creating timeless pieces that
-                        you'll cherish forever.
+                        Five years behind the lens has shown us that every photo holds a feeling. Our passion isn't just
+                        photography; it's capturing the unspoken joy, the quiet love, and the fleeting moments that
+                        define your life. Let us help you preserve the memories you'll want to relive forever.
                     </p>
+
                     <div class="stats-container">
                         <div class="stat-item">
                             <span class="stat-number">5+</span>
                             <span class="stat-label">Years Experience</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-number">200+</span>
+                            <span class="stat-number">100+</span>
                             <span class="stat-label">Happy Clients</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-number">500+</span>
+                            <span class="stat-number">200+</span>
                             <span class="stat-label">Projects Done</span>
                         </div>
                     </div>
+
+                    <div class="connect-with-us-about">
+                        <h4>Join Our Journey</h4>
+                        <div class="social-icons-about">
+                            <a href="https://www.facebook.com/elegantIMAGElk?mibextid=ZbWKwL" target="_blank"
+                                class="social-icon fb" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                            <a href="https://www.tiktok.com/@elegantimage00?_t=ZS-8xo1ydAyGl6&_r=1" target="_blank"
+                                class="social-icon tk" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                            <a href="https://wa.me/message/JGAZC7SP4K4WE1" target="_blank" class="social-icon wa"
+                                title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="about-image-slideshow">
                     <img src="Images/about1.jpg" alt="About Us Image" id="about-slideshow-image">
@@ -88,8 +108,8 @@ error_reporting(E_ALL);
         <section class="portfolio-main-section" id="portfolio-section">
             <div class="container">
                 <div class="section-title-portfolio">
-                    <h1>Showcase of my Expertise</h1>
-                    <p class="portfolio-subtitle">Capturing moments, creating memories</p>
+                    <h1>Moments We've Captured</h1>
+                    <p class="portfolio-subtitle">Framing life's timeless chapters.</p>
                 </div>
 
                 <?php
@@ -226,10 +246,12 @@ error_reporting(E_ALL);
                                             </p>
                                             <div class="client-info">
                                                 <h4 class="client-name">-
-                                                    <?php echo htmlspecialchars($testimonial_item['client_name']); ?></h4>
+                                                    <?php echo htmlspecialchars($testimonial_item['client_name']); ?>
+                                                </h4>
                                                 <?php if (!empty($testimonial_item['designation'])): ?>
                                                     <p class="client-designation">
-                                                        <?php echo htmlspecialchars($testimonial_item['designation']); ?></p>
+                                                        <?php echo htmlspecialchars($testimonial_item['designation']); ?>
+                                                    </p>
                                                 <?php endif; ?>
                                             </div>
                                         </div>
@@ -267,6 +289,7 @@ error_reporting(E_ALL);
 
                 <div class="contact-content-wrapper">
                     <div class="contact-details-column">
+                        <h3 class="contact-main-heading">Connect With Us</h3>
                         <div class="contact-info-item">
                             <div class="contact-icon phone-icon">
                                 📞
@@ -288,22 +311,7 @@ error_reporting(E_ALL);
                                 <small>We reply within 24 hours</small>
                             </div>
                         </div>
-
-                        <div class="connect-with-us">
-                            <h4>Connect With Us</h4>
-                            <div class="social-icons">
-                                <a href="#" target="_blank" class="social-icon fb" title="Facebook"><i
-                                        class="fa-brands fa-facebook"></i></a>
-                                <a href="#" target="_blank" class="social-icon ig" title="Instagram"><i
-                                        class="fa-brands fa-square-instagram"></i></a>
-                                <a href="#" target="_blank" class="social-icon tk" title="TikTok"><i
-                                        class="fa-brands fa-tiktok"></i></a>
-                                <a href="#" target="_blank" class="social-icon wa" title="WhatsApp"><i
-                                        class="fa-brands fa-whatsapp"></i></a>
-                            </div>
-                        </div>
                     </div>
-                    <!-- index.php - Contact Section -->
 
                     <div class="contact-form-column">
                         <div id="whatsapp-contact-form" class="contact-form">
@@ -331,8 +339,46 @@ error_reporting(E_ALL);
         </section>
 
     </main>
-    <footer>
-        <p>© <?php echo date("Y"); ?> Elegant Image</p>
+    <footer class="site-footer" id="footer">
+        <div class="container">
+            <div class="footer-content">
+
+                <!-- තීරුව 1: Brand සහ Motto -->
+                <div class="footer-column footer-about">
+                    <h4 class="footer-logo">Elegant Image</h4>
+                    <p class="footer-motto">
+                        Capturing life's beautiful moments, one frame at a time.
+                    </p>
+                </div>
+
+                <div class="footer-column footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#portfolio-section">Portfolio</a></li>
+                        <li><a href="#about-section">About Us</a></li>
+                        <li><a href="#contact-section">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="footer-social-icons">
+                        <a href="https://www.facebook.com/elegantIMAGElk?mibextid=ZbWKwL" target="_blank"
+                            class="social-icon fb" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="https://www.tiktok.com/@elegantimage00?_t=ZS-8xo1ydAyGl6&_r=1" target="_blank"
+                            class="social-icon tk" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="https://wa.me/message/JGAZC7SP4K4WE1" target="_blank" class="social-icon wa"
+                            title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>© <span id="copyright-year"></span> Elegant Image. All Rights Reserved.</p>
+            </div>
+        </div>
     </footer>
 
     <script src="script.js"></script>
