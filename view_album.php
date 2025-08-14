@@ -187,7 +187,7 @@ $conn->close();
         <?php else: ?>
             <p class="no-images-message">This album currently has no additional images.</p>
         <?php endif; ?>
-    </div>>
+    </div>
     <div id="lightbox" class="lightbox-hidden">
         <span class="lightbox-close-btn">×</span>
         <img class="lightbox-content" id="lightbox-img" src="">
@@ -195,7 +195,107 @@ $conn->close();
         <a class="lightbox-prev">❮</a>
         <a class="lightbox-next">❯</a>
     </div>
-    <script src="script.js"></script>
+    <script>
+        const lightbox = document.getElementById('lightbox');
+
+if (lightbox) {
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const closeBtn = lightbox.querySelector('.lightbox-close-btn');
+    const prevBtn = lightbox.querySelector('.lightbox-prev');
+    const nextBtn = lightbox.querySelector('.lightbox-next');
+
+    // Get all images from the specific album grid
+    const galleryImages = document.querySelectorAll('.album-image-grid img');
+    let currentIndex = 0;
+
+    if (galleryImages.length > 0 && lightboxImg && lightboxCaption && closeBtn && prevBtn && nextBtn) {
+
+        // Function to show the lightbox
+        function showLightbox(index) {
+            const image = galleryImages[index];
+            if (!image) return;
+
+            const fullSrc = image.getAttribute('data-fullsrc');
+            const description = image.getAttribute('data-description');
+
+            lightboxImg.setAttribute('src', fullSrc);
+            lightboxCaption.textContent = description;
+
+            lightbox.classList.remove('lightbox-hidden');
+            lightbox.classList.add('lightbox-visible');
+            document.body.style.overflow = 'hidden';
+
+            currentIndex = index;
+            updateNavButtons();
+        }
+
+        // Function to hide the lightbox
+        function hideLightbox() {
+            lightbox.classList.remove('lightbox-visible');
+            lightbox.classList.add('lightbox-hidden'); 
+            document.body.style.overflow = 'auto';
+        }
+
+        // Function to navigate to the previous or next image
+        function navigate(direction) {
+            currentIndex += direction;
+
+            if (currentIndex >= galleryImages.length) {
+                currentIndex = 0; // Loop to the first image
+            } else if (currentIndex < 0) {
+                currentIndex = galleryImages.length - 1; // Loop to the last image
+            }
+
+            showLightbox(currentIndex);
+        }
+
+        // Function to update the visibility of prev/next buttons
+        function updateNavButtons() {
+            const displayStyle = galleryImages.length <= 1 ? 'none' : 'block';
+            prevBtn.style.display = displayStyle;
+            nextBtn.style.display = displayStyle;
+        }
+
+        // Add a click event to each gallery image
+        galleryImages.forEach((img, index) => {
+            img.addEventListener('click', () => {
+                showLightbox(index);
+            });
+        });
+
+        // Close lightbox event listeners
+        closeBtn.addEventListener('click', hideLightbox);
+        
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                hideLightbox();
+            }
+        });
+
+        // Navigation event listeners
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevents the lightbox background click from firing
+            navigate(-1);
+        });
+
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navigate(1);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('lightbox-visible')) {
+                if (e.key === 'ArrowRight') navigate(1);
+                if (e.key === 'ArrowLeft') navigate(-1);
+                if (e.key === 'Escape') hideLightbox();
+            }
+        });
+
+    }
+}
+    </script>
 
 </body>
 

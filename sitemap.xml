@@ -1,0 +1,24 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://elegantimage.lk/</loc>
+    <lastmod>2024-08-14</lastmod>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://elegantimage.lk/gallery.php</loc>
+    <lastmod>2024-08-14</lastmod>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://elegantimage.lk/about.php</loc>
+    <lastmod>2024-08-14</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://elegantimage.lk/contact.php</loc>
+    <lastmod>2024-08-14</lastmod>
+    <priority>0.80</priority>
+  </url>
+</urlset>

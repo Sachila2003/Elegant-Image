@@ -1,35 +1,41 @@
-<?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elegant Image Portfolio</title>
+    <title>Elegant Image | Professional Wedding & Event Photographer in Sri Lanka</title>
+    <meta name="description"
+        content="Discover the art of professional photography with Elegant Image, a Sri Lanka based photographer specializing in capturing beautiful moments from weddings, events, and portraits. View our portfolio.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <!-- index.php - UPDATED Header -->
-    <header class="header">
+    <!-- ==================== HEADER (Final Corrected HTML) ==================== -->
+    <header class="header" id="header">
         <a href="#home" class="logo">
-            <!-- <img src="images/logo.jpg" alt="Elegant Image Logo"> -->
             <span>Elegant Image</span>
         </a>
-        <nav class="navbar">
-            <!-- Regular Navigation Links -->
-            <a href="#home" class="active">Home</a>
-            <a href="#about-section">About</a>
-            <a href="#portfolio-section">Portfolio</a>
-            <a href="#testimonials">Testimonials</a>
-            <a href="#contact-section">Contact</a>
+
+        <!-- Navigation Menu -->
+        <nav class="navbar" id="nav-menu">
+            <!-- Links ටික list එකකට දැම්මා -->
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#home" class="nav-link active">Home</a></li>
+                <li class="nav-item"><a href="#about-section" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="#portfolio-section" class="nav-link">Portfolio</a></li>
+                <li class="nav-item"><a href="#testimonials" class="nav-link">Testimonials</a></li>
+                <li class="nav-item"><a href="#contact-section" class="nav-link">Contact</a></li>
+            </ul>
+
+            <!-- Mobile Menu Close Button -->
+            <div class="nav-close" id="nav-close">
+                <i class="fas fa-times"></i>
+            </div>
         </nav>
-        <!-- Admin Icon Link - MOVED OUTSIDE the navbar links group -->
+
+        <!-- Header Action Icons -->
         <div class="header-action-group">
             <a href="admin/login.php" class="header-icon-btn admin-nav-icon" title="Admin Panel">
                 <i class="fa-solid fa-gear"></i>
@@ -37,7 +43,10 @@ error_reporting(E_ALL);
             <button class="header-icon-btn theme-toggle" id="themeToggle" title="Toggle Theme">
                 <i class="fas fa-moon" id="themeIcon"></i>
             </button>
-
+            <!-- Hamburger Menu Toggle Button -->
+            <button class="header-icon-btn nav-toggle" id="nav-toggle" title="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
 

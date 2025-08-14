@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // ===================================
-    //  HERO GALLERY IMAGE ROTATOR
-    // ===================================
+    // ================================================================
+    //              1. HERO GALLERY IMAGE ROTATOR
+    // ================================================================
     const heroImageSlots = [
         document.querySelector('#slot1 img'),
         document.querySelector('#slot2 img'),
@@ -28,85 +28,36 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function getRandomHeroImage(excludeUrls = []) {
         let availableImages = heroImageUrls.filter(url => !excludeUrls.includes(url));
-        if (availableImages.length === 0 && heroImageUrls.length > 0) {
-            availableImages = heroImageUrls;
-        }
+        if (availableImages.length === 0) availableImages = heroImageUrls;
         if (availableImages.length === 0) return null;
-        const randomIndex = Math.floor(Math.random() * availableImages.length);
-        return availableImages[randomIndex];
+        return availableImages[Math.floor(Math.random() * availableImages.length)];
     }
 
     function updateHeroImage(slotElement, slotIndex) {
         if (!slotElement || heroImageUrls.length === 0) return;
-        const oldImageSrc = heroCurrentlyDisplayed[slotIndex];
-        const excludeFromRandom = heroCurrentlyDisplayed.filter((src, i) => i !== slotIndex && src !== null);
-        let newImageFullUrl;
-        let attempts = 0;
-        const maxAttempts = heroImageUrls.length * 2;
-        do {
-            newImageFullUrl = getRandomHeroImage(excludeFromRandom);
-            attempts++;
-            if (!newImageFullUrl) break;
-        } while (newImageFullUrl === oldImageSrc && attempts < maxAttempts && heroImageUrls.length > heroImageSlots.length);
-        if (!newImageFullUrl) {
-            newImageFullUrl = heroImageUrls[Math.floor(Math.random() * heroImageUrls.length)];
-            if (!newImageFullUrl) return;
-        }
+        const newImageUrl = getRandomHeroImage(heroCurrentlyDisplayed);
+        if (!newImageUrl) return;
+
         slotElement.style.opacity = '0';
         setTimeout(() => {
-            slotElement.src = newImageFullUrl;
-            const imageNameOnly = newImageFullUrl.split('/').pop();
-            slotElement.alt = `Photography ${imageNameOnly}`;
+            slotElement.src = newImageUrl;
+            slotElement.alt = `Photography by Elegant Image`;
             slotElement.style.opacity = '1';
-            heroCurrentlyDisplayed[slotIndex] = newImageFullUrl;
+            heroCurrentlyDisplayed[slotIndex] = newImageUrl;
         }, 500);
     }
 
     if (heroImageSlots.length > 0 && heroImageUrls.length > 0) {
-        heroImageSlots.forEach((slot, index) => {
-            if (slot) updateHeroImage(slot, index);
-        });
+        heroImageSlots.forEach((slot, index) => updateHeroImage(slot, index));
         setInterval(() => {
-            if (heroImageSlots.length > 0) {
-                const randomSlotIndex = Math.floor(Math.random() * heroImageSlots.length);
-                if (heroImageSlots[randomSlotIndex]) updateHeroImage(heroImageSlots[randomSlotIndex], randomSlotIndex);
-            }
+            const randomSlotIndex = Math.floor(Math.random() * heroImageSlots.length);
+            updateHeroImage(heroImageSlots[randomSlotIndex], randomSlotIndex);
         }, 5000);
     }
 
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-    const html = document.documentElement;
-    
-    // Page ek load weddi save krpu theme ek gnnw
-    const savedTheme = localStorage.getItem('theme') || 
-        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    
-    html.setAttribute('data-bs-theme', savedTheme);
-    updateThemeIcon(savedTheme);
-    
-    themeToggle.addEventListener('click', () => {
-        //dant thiyen theme eka html eken gnnw
-        const currentTheme = html.getAttribute('data-bs-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
-        html.setAttribute('data-bs-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        updateThemeIcon(newTheme);
-    });
-    
-    function updateThemeIcon(theme) {
-        if (theme === 'light') {
-            themeIcon.classList.remove('fa-sun');
-            themeIcon.classList.add('fa-moon');
-        } else { // dark
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');    
-        }
-    }
-    // ===================================
-    //  ABOUT US IMAGE SLIDESHOW
-    // ===================================
+    // ================================================================
+    //              2. ABOUT US IMAGE SLIDESHOW
+    // ================================================================
     const aboutSlideshowImageElement = document.getElementById('about-slideshow-image');
     const aboutImageUrls = [
         'Images/about.jpg'
@@ -136,258 +87,149 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // ===================================
-    //  PORTFOLIO LIGHTBOX SCRIPT (Corrected and Consolidated)
-    // ===================================
-    const lightboxElementGlobal = document.getElementById('lightbox'); // Use a unique name
-    if (lightboxElementGlobal) {
-        const lightboxImgGlobal = lightboxElementGlobal.querySelector('#lightbox-img');
-        const lightboxCaptionGlobal = lightboxElementGlobal.querySelector('#lightbox-caption');
-        const lightboxCloseBtnGlobal = lightboxElementGlobal.querySelector('.lightbox-close-btn');
-        const lightboxPrevBtnGlobal = lightboxElementGlobal.querySelector('.lightbox-prev');
-        const lightboxNextBtnGlobal = lightboxElementGlobal.querySelector('.lightbox-next');
-
-        let currentGlobalLightboxImageIndex;
-        let allGlobalLightboxTriggerImages = [];
-
-        function updateGlobalLightboxTriggerImages() {
-            allGlobalLightboxTriggerImages = Array.from(document.querySelectorAll('img[data-fullsrc]'));
-            // console.log("Found lightbox trigger images:", allGlobalLightboxTriggerImages.length); // For debugging
-        }
-
-        function openGlobalLightbox(clickedImageElement) {
-            // console.log("openGlobalLightbox called with:", clickedImageElement); // For debugging
-            if (!clickedImageElement) return;
-            const index = allGlobalLightboxTriggerImages.indexOf(clickedImageElement);
-            // console.log("Index in trigger images:", index); // For debugging
-
-            if (index >= 0 && index < allGlobalLightboxTriggerImages.length) {
-                currentGlobalLightboxImageIndex = index;
-                const imgData = allGlobalLightboxTriggerImages[currentGlobalLightboxImageIndex];
-
-                if (imgData && imgData.dataset.fullsrc && lightboxImgGlobal && lightboxCaptionGlobal) {
-                    lightboxImgGlobal.src = ""; // Clear previous image
-                    lightboxImgGlobal.src = imgData.dataset.fullsrc;
-                    lightboxCaptionGlobal.textContent = imgData.dataset.description || imgData.alt || "";
-                    lightboxElementGlobal.classList.remove('lightbox-hidden');
-                    lightboxElementGlobal.classList.add('lightbox-visible');
-                    document.body.style.overflow = 'hidden';
+    // ================================================================
+    //              3. THEME TOGGLE LOGIC
+    // ================================================================
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        const themeIcon = document.getElementById('themeIcon');
+        const html = document.documentElement;
+        
+        const savedTheme = localStorage.getItem('theme') || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        html.setAttribute('data-bs-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+        
+        function updateThemeIcon(theme) {
+            if (themeIcon) {
+                if (theme === 'light') {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
                 } else {
-                    // console.error("Lightbox image data or elements missing."); // For debugging
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');    
                 }
             }
         }
-
-        function closeGlobalLightbox() {
-            if (lightboxElementGlobal) {
-                lightboxElementGlobal.classList.remove('lightbox-visible');
-                document.body.style.overflow = 'auto';
-                if (lightboxImgGlobal) lightboxImgGlobal.src = "";
-            }
-        }
-
-        function showNextGlobalLightboxImage() {
-            if (allGlobalLightboxTriggerImages.length > 0) {
-                const nextIndex = (currentGlobalLightboxImageIndex + 1) % allGlobalLightboxTriggerImages.length;
-                openGlobalLightbox(allGlobalLightboxTriggerImages[nextIndex]);
-            }
-        }
-
-        function showPrevGlobalLightboxImage() {
-            if (allGlobalLightboxTriggerImages.length > 0) {
-                const prevIndex = (currentGlobalLightboxImageIndex - 1 + allGlobalLightboxTriggerImages.length) % allGlobalLightboxTriggerImages.length;
-                openGlobalLightbox(allGlobalLightboxTriggerImages[prevIndex]);
-            }
-        }
-
-        function handleGlobalImageClickForLightbox(e) {
-            updateGlobalLightboxTriggerImages();
-            openGlobalLightbox(e.currentTarget);
-        }
-
-        function initializeGlobalLightboxTriggers() {
-            updateGlobalLightboxTriggerImages();
-            allGlobalLightboxTriggerImages.forEach((imgElement) => {
-                imgElement.removeEventListener('click', handleGlobalImageClickForLightbox); // Prevent multiple listeners
-                imgElement.addEventListener('click', handleGlobalImageClickForLightbox);
-            });
-        }
-
-        if (lightboxImgGlobal && lightboxCaptionGlobal && lightboxCloseBtnGlobal && lightboxPrevBtnGlobal && lightboxNextBtnGlobal) {
-            initializeGlobalLightboxTriggers();
-            lightboxCloseBtnGlobal.addEventListener('click', closeGlobalLightbox);
-            lightboxPrevBtnGlobal.addEventListener('click', showPrevGlobalLightboxImage);
-            lightboxNextBtnGlobal.addEventListener('click', showNextGlobalLightboxImage);
-            lightboxElementGlobal.addEventListener('click', (e) => {
-                if (e.target === lightboxElementGlobal) closeGlobalLightbox();
-            });
-            document.addEventListener('keydown', (e) => {
-                if (lightboxElementGlobal.classList.contains('lightbox-visible')) {
-                    if (e.key === 'Escape') closeGlobalLightbox();
-                    if (e.key === 'ArrowRight') showNextGlobalLightboxImage();
-                    if (e.key === 'ArrowLeft') showPrevGlobalLightboxImage();
-                }
-            });
-        } else {
-
-        }
-    }
-    //  TESTIMONIAL SLIDER SCRIPT
-    const testimonialSliderWrapperGlobal = document.querySelector('.testimonial-slider-wrapper');
-
-    if (testimonialSliderWrapperGlobal) {
-        const sliderContainerGlobal = testimonialSliderWrapperGlobal.querySelector('.testimonial-slider-container');
-        const sliderTrackGlobal = sliderContainerGlobal ? sliderContainerGlobal.querySelector('.testimonial-slider') : null;
-        const slidesGlobal = sliderTrackGlobal ? Array.from(sliderTrackGlobal.querySelectorAll('.testimonial-slide')) : [];
-
-        const navControlsGlobal = testimonialSliderWrapperGlobal.querySelector('.slider-nav-controls');
-        const prevButtonGlobal = navControlsGlobal ? navControlsGlobal.querySelector('.prev-arrow') : null;
-        const nextButtonGlobal = navControlsGlobal ? navControlsGlobal.querySelector('.next-arrow') : null;
-        const dotsContainerGlobal = navControlsGlobal ? navControlsGlobal.querySelector('.slider-nav-dots') : null;
-
-        let currentTestimonialIndex = 0;
-        const totalTestimonialSlides = slidesGlobal.length;
-
-        function updateTestimonialSliderPosition() {
-            if (sliderTrackGlobal) {
-                sliderTrackGlobal.style.transform = `translateX(-${currentTestimonialIndex * 100}%)`;
-            }
-            updateTestimonialDots();
-            updateArrowStates();
-        }
-
-        function updateTestimonialDots() {
-            if (!dotsContainerGlobal || totalTestimonialSlides <= 1) return;
-            const dots = dotsContainerGlobal.querySelectorAll('.dot');
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active-dot', index === currentTestimonialIndex);
-            });
-        }
-
-        function createTestimonialDots() {
-            if (!dotsContainerGlobal || totalTestimonialSlides <= 1) {
-                if (navControlsGlobal) navControlsGlobal.style.display = 'none';
-                return;
-            }
-            if (navControlsGlobal) navControlsGlobal.style.display = 'flex'; // Or 'block'
-
-            dotsContainerGlobal.innerHTML = '';
-            for (let i = 0; i < totalTestimonialSlides; i++) {
-                const dotButton = document.createElement('button'); // Use button for accessibility
-                dotButton.classList.add('dot');
-                dotButton.setAttribute('type', 'button');
-                dotButton.setAttribute('aria-label', `Go to testimonial ${i + 1}`);
-                dotButton.addEventListener('click', () => {
-                    currentTestimonialIndex = i;
-                    updateTestimonialSliderPosition();
-                });
-                dotsContainerGlobal.appendChild(dotButton);
-            }
-        }
-
-        function updateArrowStates() { // Optional: Disable arrows at ends if not looping
-            if (!prevButtonGlobal || !nextButtonGlobal || totalTestimonialSlides <= 1) return;
-            // If you don't want looping, disable buttons:
-            // prevButtonGlobal.disabled = currentTestimonialIndex === 0;
-            // nextButtonGlobal.disabled = currentTestimonialIndex === totalTestimonialSlides - 1;
-        }
-
-        function showNextTestimonialSlide() {
-            currentTestimonialIndex = (currentTestimonialIndex + 1) % totalTestimonialSlides; // Loops
-            updateTestimonialSliderPosition();
-        }
-
-        function showPrevTestimonialSlide() {
-            currentTestimonialIndex = (currentTestimonialIndex - 1 + totalTestimonialSlides) % totalTestimonialSlides; // Loops
-            updateTestimonialSliderPosition();
-        }
-
-        // Initialization
-        if (sliderTrackGlobal && totalTestimonialSlides > 0) {
-            createTestimonialDots();
-            updateTestimonialSliderPosition(); // Set initial position and dots
-
-            if (nextButtonGlobal) {
-                nextButtonGlobal.addEventListener('click', showNextTestimonialSlide);
-            }
-            if (prevButtonGlobal) {
-                prevButtonGlobal.addEventListener('click', showPrevTestimonialSlide);
-            }
-
-            // Optional: Auto-slide
-            // let autoSlideInterval = setInterval(showNextTestimonialSlide, 7000); // Change every 7 seconds
-            // testimonialSliderWrapperGlobal.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
-            // testimonialSliderWrapperGlobal.addEventListener('mouseleave', () => autoSlideInterval = setInterval(showNextTestimonialSlide, 7000));
-
-        } else if (testimonialSliderWrapperGlobal) {
-            if (navControlsGlobal) navControlsGlobal.style.display = 'none';
-        }
-    } else {
-        // console.log("Testimonial slider wrapper not found.");
     }
 
-    //  SMOOTH SCROLL FOR NAV LINKS
-    document.querySelectorAll('header nav ul li a[href^="#"], a.cta-button[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href');
-            if (targetId && targetId.startsWith('#') && targetId.length > 1) {
-                e.preventDefault();
-                try {
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: 'smooth' });
-                    }
-                } catch (error) { /* console.warn("Smooth scroll error:", error); */ }
+    // ================================================================
+    //              4. MOBILE NAVIGATION (HAMBURGER MENU)
+    // ================================================================
+    const navMenu = document.getElementById('nav-menu');
+    const navToggle = document.getElementById('nav-toggle');
+    const navClose = document.getElementById('nav-close');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.add('show-menu');
+        });
+    }
+
+    if (navClose && navMenu) {
+        navClose.addEventListener('click', () => {
+            navMenu.classList.remove('show-menu');
+        });
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (navMenu && navMenu.classList.contains('show-menu')) {
+                navMenu.classList.remove('show-menu');
             }
         });
     });
 
-    // whatsapp contact from script
+    // ================================================================
+    //              5. TESTIMONIAL SLIDER
+    // ================================================================
+    const sliderWrapper = document.querySelector('.testimonial-slider-wrapper');
+    if (sliderWrapper) {
+        const sliderTrack = sliderWrapper.querySelector('.testimonial-slider');
+        const slides = sliderTrack ? Array.from(sliderTrack.querySelectorAll('.testimonial-slide')) : [];
+        const nextBtn = sliderWrapper.querySelector('.next-arrow');
+        const prevBtn = sliderWrapper.querySelector('.prev-arrow');
+        const dotsContainer = sliderWrapper.querySelector('.slider-nav-dots');
+        let currentIndex = 0;
+
+        if (slides.length > 1) {
+            dotsContainer.innerHTML = '';
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.classList.add('dot');
+                dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+                dot.addEventListener('click', () => {
+                    currentIndex = i;
+                    updateSlider();
+                });
+                dotsContainer.appendChild(dot);
+            });
+            const dots = dotsContainer.querySelectorAll('.dot');
+
+            function updateSlider() {
+                sliderTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+                dots.forEach(dot => dot.classList.remove('active-dot'));
+                dots[currentIndex].classList.add('active-dot');
+            }
+
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % slides.length;
+                updateSlider();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                updateSlider();
+            });
+
+            updateSlider();
+        }
+    }
+
+    // ================================================================
+    //              6. WHATSAPP CONTACT FORM
+    // ================================================================
     const sendWhatsappBtn = document.getElementById('send-whatsapp-btn');
     if (sendWhatsappBtn) {
-        const inputName = document.getElementById('whatsapp_name');
-        const inputSubject = document.getElementById('whatsapp_subject');
-        const inputMessage = document.getElementById('whatsapp_message');
-        const formStatusMsg = document.getElementById('form-status-message');
-
         sendWhatsappBtn.addEventListener('click', function (event) {
             event.preventDefault();
             const yourWhatsAppNumber = '94742715484';
-            const name = inputName ? inputName.value.trim() : '';
-            const subject = inputSubject ? inputSubject.value.trim() : '';
-            const message = inputMessage ? inputMessage.value.trim() : '';
+            const name = document.getElementById('whatsapp_name').value.trim();
+            const subject = document.getElementById('whatsapp_subject').value.trim();
+            const message = document.getElementById('whatsapp_message').value.trim();
+            const formStatusMsg = document.getElementById('form-status-message');
 
-            // --- Validation ---
             if (name === '' || subject === '' || message === '') {
                 if (formStatusMsg) {
-                    formStatusMsg.className = 'error';
-                    formStatusMsg.innerHTML = 'Please fill out all fields before sending.';
+                    formStatusMsg.textContent = 'Please fill out all fields before sending.';
+                    formStatusMsg.style.color = 'red';
                 }
                 return;
-            } else {
-                if (formStatusMsg) {
-                    formStatusMsg.innerHTML = '';
-                    formStatusMsg.className = '';
-                }
             }
 
-            let preFilledMessage =
-                `Hello Elegant Image,\n\n` +
-                `*Name:* ${name}\n` +
-                `*Subject:* ${subject}\n\n` +
-                `*Message:*\n${message}\n\n` +
-                `---\nSent from your website contact form.`;
-
-            let encodedMessage = encodeURIComponent(preFilledMessage);
-
-            const whatsappUrl = `https://wa.me/${yourWhatsAppNumber}?text=${encodedMessage}`;
-
+            let preFilledMessage = `Hello Elegant Image,\n\n*Name:* ${name}\n*Subject:* ${subject}\n\n*Message:*\n${message}`;
+            const whatsappUrl = `https://wa.me/${yourWhatsAppNumber}?text=${encodeURIComponent(preFilledMessage)}`;
             window.open(whatsappUrl, '_blank');
-
-            if (formStatusMsg) {
-                formStatusMsg.className = 'success';
-                formStatusMsg.innerHTML = 'WhatsApp is opening... Please send your message there.';
-            }
         });
     }
+
+    // ================================================================
+    //              7. COPYRIGHT YEAR
+    // ================================================================
+    const copyrightYear = document.getElementById('copyright-year');
+    if(copyrightYear) {
+        copyrightYear.textContent = new Date().getFullYear();
+    }
+
 });

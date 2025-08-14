@@ -44,6 +44,10 @@ h6 {
     color: var(--secondary-color);
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .header {
     position: fixed;
     top: 0;
@@ -56,9 +60,8 @@ h6 {
     justify-content: space-between;
     align-items: center;
     z-index: 1000;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    transition: padding 0.3s ease;
     border-bottom: 2px solid var(--primary-color);
+    transition: padding 0.3s ease;
 }
 
 /* Logo styles */
@@ -117,8 +120,101 @@ h6 {
 .header-action-group {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 1rem;
 }
+
+.header-icon-btn {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.header-icon-btn:hover {
+    color: var(--primary-color);
+}
+
+/* --- Desktop Navigation --- */
+.nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin-left: 2rem;
+}
+
+.nav-link {
+    font-size: 1.1rem;
+    color: #555;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary-color);
+}
+
+.nav-close {
+    display: none;
+}
+
+.nav-toggle {
+    display: none;
+}
+@media screen and (max-width: 992px) {
+
+    .navbar .nav-list {
+        display: none;
+    }
+
+    .header .admin-nav-icon,
+    .header .theme-toggle {
+        display: none;
+    }
+
+    .header .nav-toggle {
+        display: block;
+    }
+    
+    .navbar.show-menu {
+        display: block;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 70%;
+        max-width: 300px;
+        height: 100vh;
+        background-color: #ffffff;
+        padding: 4rem 2rem 2rem;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        transition: right 0.4s ease-in-out;
+    }
+    
+    .navbar.show-menu .nav-list {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2.5rem;
+    }
+    
+    .navbar.show-menu .nav-close {
+        display: block;
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        font-size: 1.8rem;
+        cursor: pointer;
+        color: #333;
+    }
+}
+
 
 /* Admin Icon styles */
 .admin-nav-icon {
@@ -156,6 +252,7 @@ h6 {
     --text-color: #adb5bd;
     --secondary-color: #f8f9fa;
 }
+
 [data-bs-theme="dark"] body {
     background-color: var(--body-bg);
     color: var(--text-color);
